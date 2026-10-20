@@ -1,0 +1,2 @@
+# LabSentinel
+YOLO视觉感知与DeepSeek支撑的实验室安全分析Agent协同系统
