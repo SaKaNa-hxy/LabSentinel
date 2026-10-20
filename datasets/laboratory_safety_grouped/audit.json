@@ -1,0 +1,131 @@
+{
+  "seed": 42,
+  "grouping": "filename prefix or normalized image name",
+  "source_verification": "unverified; filename groups do not establish actual capture sources",
+  "original": {
+    "splits": {
+      "train": {
+        "images": 5096,
+        "objects": [
+          2061,
+          2087,
+          5192,
+          3413,
+          3237,
+          3554,
+          1232,
+          5296,
+          3359,
+          3426,
+          1220,
+          3234
+        ],
+        "sources": 402
+      },
+      "val": {
+        "images": 1414,
+        "objects": [
+          602,
+          580,
+          1368,
+          943,
+          915,
+          961,
+          313,
+          1530,
+          908,
+          956,
+          333,
+          921
+        ],
+        "sources": 136
+      },
+      "test": {
+        "images": 707,
+        "objects": [
+          304,
+          299,
+          688,
+          466,
+          439,
+          461,
+          149,
+          747,
+          466,
+          486,
+          149,
+          449
+        ],
+        "sources": 84
+      }
+    },
+    "overlapping_sources": {
+      "train_val": 31,
+      "train_test": 31,
+      "val_test": 31
+    }
+  },
+  "grouped": {
+    "splits": {
+      "train": {
+        "images": 4998,
+        "objects": [
+          2147,
+          2117,
+          5262,
+          3416,
+          3032,
+          3160,
+          1125,
+          5121,
+          3509,
+          3692,
+          1158,
+          3224
+        ],
+        "sources": 454
+      },
+      "val": {
+        "images": 1484,
+        "objects": [
+          570,
+          593,
+          1450,
+          924,
+          959,
+          1318,
+          343,
+          1486,
+          884,
+          647,
+          344,
+          920
+        ],
+        "sources": 69
+      },
+      "test": {
+        "images": 735,
+        "objects": [
+          250,
+          256,
+          536,
+          482,
+          600,
+          498,
+          226,
+          966,
+          340,
+          529,
+          200,
+          460
+        ],
+        "sources": 37
+      }
+    },
+    "overlapping_sources": {
+      "train_val": 0,
+      "train_test": 0,
+      "val_test": 0
+    }
+  }
+}

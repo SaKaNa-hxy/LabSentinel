@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LabSentinel · 实验室安全智能分析</title>
+  <link rel="stylesheet" href="/assets/style.css?v=20261001e" />
+</head>
+<body>
+  <a class="skip-link" href="#analysis">跳转到分析台</a>
+  <header class="topbar">
+    <a class="brand" href="#top"><span class="brand-mark">LS</span><span><b>LabSentinel</b><small>实验室安全智能分析系统</small></span></a>
+    <nav aria-label="主导航"><a class="active" href="#analysis">分析台</a><a href="#history">分析历史</a><a href="#protocol">检测类别</a><a href="#about">系统信息</a></nav>
+    <a class="status-pill" href="#analysis">进入分析台 <span aria-hidden="true">↗</span></a>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-intro"><div class="eyebrow">实验室安全工作台</div><h1>让每一次巡检，<br>都有清晰的依据。</h1><p class="hero-copy">从现场图像中识别防护用品与进食、饮水行为，查看检测证据，复核风险，留下分析记录。</p><a class="hero-action" href="#analysis">开始现场分析 <span aria-hidden="true">↗</span></a></div>
+      <div class="hero-diagram" aria-hidden="true"><div class="diagram-caption"><span>现场观察</span><span>LabSentinel</span></div><div class="lab-scene"><div class="scene-grid"></div><div class="lab-bench"></div><svg class="lab-vessels" viewBox="0 0 320 160" fill="none"><path d="M73 24h32M80 24v43L53 121q-7 14 9 14h59q16 0 9-14l-32-54V24" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M66 108h52l12 19q4 8-9 8H62q-13 0-9-8z" fill="currentColor" opacity=".13"/><path d="M186 51h52M191 51v71q0 13 13 13h17q12 0 12-13V51M193 93h38M216 66h10M216 80h10M216 109h10" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M267 18h17v105q0 12-9 12t-9-12V18" stroke="currentColor" stroke-width="3"/><path d="M269 98h12v26q0 8-6 8t-6-8z" fill="currentColor" opacity=".3"/></svg><div class="observation-box"><span>现场图像</span><i></i></div><div class="scene-marker">图像输入 → 目标检测 → 风险复核</div></div><div class="hero-meta"><span><b>12</b> 类检测目标</span><span>图片 / 视频 / 摄像头</span></div></div>
+    </section>
+
+    <section class="workspace" id="analysis">
+      <div class="section-heading"><div><span class="kicker">现场分析</span><h2 id="workspaceTitle">上传现场图像</h2></div><span class="mono">置信度 <b id="confidenceValue">0.15</b></span></div>
+      <div class="mode-tabs" role="group" aria-label="分析方式"><button class="mode-tab active" data-mode="image" aria-pressed="true">图片分析</button><button class="mode-tab" data-mode="video" aria-pressed="false">视频分析</button><button class="mode-tab" data-mode="camera" aria-pressed="false">摄像头实时检测</button></div>
+      <div class="analysis-grid">
+        <div class="dropzone" id="dropzone">
+          <input id="fileInput" type="file" accept="image/png,image/jpeg,image/webp" hidden />
+          <div class="drop-content" id="emptyState"><div class="upload-orbit"><span>↑</span></div><h3 id="uploadTitle">将现场图片拖放至此</h3><p id="uploadHint">支持 JPG、PNG、WEBP · 单张图片不超过 10 MB</p><button class="outline-btn" id="browseBtn">选择图片</button></div>
+          <div class="preview-content hidden" id="previewState"><div class="preview-frame"><img id="previewImage" alt="待分析图片" /><video id="previewVideo" controls muted playsinline class="hidden"></video><span class="scan-line"></span></div><div class="file-line"><span id="fileName">—</span><button class="text-btn" id="removeBtn">移除</button></div></div>
+          <div class="camera-content hidden" id="cameraState"><div class="preview-frame"><video id="cameraVideo" autoplay muted playsinline></video><canvas id="cameraCanvas" class="hidden"></canvas><span class="live-camera-mark">摄像头画面</span></div><div class="camera-actions"><button class="outline-btn" id="startCameraBtn">启用摄像头</button><button class="text-btn" id="stopCameraBtn" disabled>停止检测</button></div><div id="liveAlert" class="live-alert hidden" role="alert" aria-live="assertive"></div></div>
+        </div>
+        <aside class="control-panel">
+          <div class="control-label">分析设置 <span>检测参数</span></div>
+          <label class="range-label" for="confidenceRange"><span>置信度阈值</span><output id="rangeOutput" for="confidenceRange">15%</output></label><input id="confidenceRange" type="range" min="5" max="80" value="15" />
+          <p class="parameter-hint">调高阈值可减少低置信度目标，调低阈值可辅助检查漏检。</p>
+          <div class="model-card"><div><span class="mini-icon">◈</span><div><b>YOLO11 Safety Core</b><small id="modelStatus">等待载入模型信息</small></div></div><span class="ready-dot"></span></div>
+          <button type="button" class="analyze-btn" id="analyzeBtn" disabled><span>开始安全分析</span><strong>→</strong></button>
+          <p class="fine-print" id="modeNotice">分析结果仅作为智能辅助判断，请结合现场巡检与实验室应急预案进行最终决策。</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="results" id="resultsSection">
+      <div class="section-heading"><div><span class="kicker">检测证据与风险复核</span><h2>检测结果</h2></div><span class="result-time" id="resultTime" aria-live="polite">尚未运行分析</span></div>
+      <div class="result-grid">
+        <div class="image-result card"><div class="card-head"><span>图像标注</span><span class="live-tag" id="analysisTag">待分析</span></div><div class="result-image-wrap" id="resultImageWrap"><div class="result-placeholder"><span>◎</span><p>分析后的标注图像将显示在这里</p><small>先选择现场图片，再点击“开始安全分析”</small></div><img id="resultImage" class="hidden" alt="检测结果" /></div><div class="detection-panel"><div class="subhead">检测目标明细 <span>类别与置信度</span></div><div class="detection-list" id="detectionList"><div class="detection-empty">等待分析后显示每一个检测目标</div></div></div></div>
+        <div class="risk-card card"><div class="card-head"><span>风险复核</span><span class="mono" id="eventStatus">等待分析</span></div><div class="event-panel"><div class="event-list" id="eventList"><span class="event-empty">等待图像分析</span></div><p id="riskSummary">上传一张实验室现场图片，开始第一次安全分析。</p></div><div class="recommendations"><div class="subhead">建议动作 <span>现场处置参考</span></div><ul id="recommendationList"><li>保持摄像头视野清晰</li><li>确认图片包含完整的实验区域</li><li>分析结果将实时更新</li></ul></div><div class="llm-report"><div class="subhead">智能报告 <span>检测结果解读</span></div><button type="button" class="report-btn" id="reportBtn" disabled>生成智能分析报告 <strong>↗</strong></button><div class="report-state" id="reportState">完成图像分析后，可调用 DeepSeek 生成解释。</div><div class="report-content hidden" id="reportContent"></div></div><div class="agent-panel"><div class="subhead">安全 Agent <span>辅助问答</span></div><div class="agent-toolbar"><span id="agentState">可自由聊天，也可询问当前检测、风险依据、历史记录或整改建议</span><button type="button" class="text-btn" id="clearChatBtn">清空会话</button></div><div class="agent-messages" id="agentMessages"><div class="agent-message agent-message-bot"><b>LabSentinel Agent</b><p>你好，我是 LabSentinel Agent。可以和我自由聊天，也能让我解释风险依据、查询历史记录或给出整改建议。</p></div></div><form class="agent-form" id="agentForm"><input aria-label="向安全助手提问" id="agentInput" type="text" maxlength="500" placeholder="例如：你好 / 为什么判定为风险？" autocomplete="off" /><button type="submit" id="agentSendBtn">发送 <strong>→</strong></button></form></div></div>
+      </div>
+    </section>
+
+    <section class="history-section" id="history"><div class="section-heading"><div><span class="kicker">巡检记录</span><h2>分析历史</h2></div><div class="history-actions"><button class="text-btn" id="refreshHistoryBtn">刷新记录</button><button class="danger-btn" type="button" id="clearHistoryBtn" disabled>删除全部记录</button></div></div><div class="history-toolbar"><div class="history-filters" id="historyFilters"><button class="history-filter active" data-source="all">全部</button><button class="history-filter" data-source="image">图片</button><button class="history-filter" data-source="video">视频</button><button class="history-filter" data-source="camera">摄像头</button></div><span class="mono" id="historyCount">0 条记录</span></div><p id="historyActionStatus" class="history-action-status" role="status" aria-live="polite"></p><div class="history-grid" id="historyGrid"><div class="history-empty">暂无历史分析记录</div></div></section>
+    <section class="metrics" id="protocol"><div class="section-heading"><div><span class="kicker">识别范围</span><h2>检测类别</h2></div><span class="mono">12 类检测目标</span></div><div class="signal-grid" id="signalGrid"></div></section>
+    <section class="protocol-strip" id="about"><div><span class="kicker">使用说明</span><h2>看见目标，解释风险，<em>支持决策。</em></h2></div><p>当前安全模型识别 12 类实验室安全目标，覆盖进食、饮水和 PPE 穿戴状态。系统依据进食、饮水和未佩戴防护用品的检测结果生成风险提示。目前不能将目标逐一关联到具体人员，请结合现场情况复核。</p><div class="protocol-number">LS<br><span>v1.0.0</span></div></section>
+  </main>
+  <footer><span>LabSentinel · 实验室安全智能分析</span><span>视觉检测与人工复核协同</span></footer>
+  <dialog id="clearHistoryDialog" class="confirm-dialog" aria-labelledby="clearHistoryTitle" aria-describedby="clearHistoryDescription">
+    <h2 id="clearHistoryTitle">删除全部历史记录？</h2>
+    <p id="clearHistoryDescription"></p>
+    <div class="dialog-actions"><button type="button" class="outline-btn" id="cancelClearHistoryBtn" autofocus>取消</button><button type="button" class="danger-btn" id="confirmClearHistoryBtn">确认全部删除</button></div>
+  </dialog>
+  <dialog id="historyImageDialog" class="history-image-dialog" aria-labelledby="historyImageTitle" aria-describedby="historyImageMeta">
+    <div class="history-image-heading"><div><h2 id="historyImageTitle">历史记录图片</h2><p id="historyImageMeta"></p></div><button type="button" class="history-image-close" id="closeHistoryImageBtn" aria-label="关闭大图预览" autofocus>关闭 <span aria-hidden="true">×</span></button></div>
+    <div class="history-image-stage"><img id="historyFullImage" alt="历史记录标注图片" /><p class="hidden" id="historyImageError" role="status">图片加载失败，请关闭预览并刷新历史记录后重试。</p></div>
+  </dialog>
+  <script src="/assets/app.js?v=20261001e"></script>
+</body>
+</html>

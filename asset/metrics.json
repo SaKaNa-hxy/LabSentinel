@@ -1,0 +1,90 @@
+{
+  "model": "C:\\Users\\HXY\\Desktop\\Design\\models\\laboratory_safety\\weights\\best.pt",
+  "split": "test",
+  "confidence_threshold": 0.25,
+  "overall": {
+    "Precision": 0.8442504452214069,
+    "Recall": 0.9019227825926471,
+    "F1-score": 0.8721342174194157,
+    "mAP@0.5": 0.8960374640693459,
+    "mAP@0.5:0.95": 0.6824994488514871
+  },
+  "per_class": {
+    "饮水": {
+      "precision": 0.7866317770729205,
+      "recall": 0.7882843304757686,
+      "f1_score": 0.7874571867653858,
+      "map50": 0.8167066301828312
+    },
+    "进食": {
+      "precision": 0.8483855632422117,
+      "recall": 0.8494983277591973,
+      "f1_score": 0.8489415808571393,
+      "map50": 0.8724825659375584
+    },
+    "手套": {
+      "precision": 0.8308726477445209,
+      "recall": 0.9069767441860465,
+      "f1_score": 0.8672583163808173,
+      "map50": 0.8871159701700666
+    },
+    "护目镜": {
+      "precision": 0.8870018752479616,
+      "recall": 0.9096228567710507,
+      "f1_score": 0.8981699576378668,
+      "map50": 0.9231374661653182
+    },
+    "头套": {
+      "precision": 0.8568549068117569,
+      "recall": 0.9544419134396356,
+      "f1_score": 0.9030195688015924,
+      "map50": 0.9231470037770683
+    },
+    "实验服": {
+      "precision": 0.8629593058909936,
+      "recall": 0.9327548806941431,
+      "f1_score": 0.8965006908376303,
+      "map50": 0.9309542551553981
+    },
+    "口罩": {
+      "precision": 0.8246096595622607,
+      "recall": 0.9328859060402684,
+      "f1_score": 0.8754124271449483,
+      "map50": 0.9141951362372215
+    },
+    "未戴手套": {
+      "precision": 0.830512077443272,
+      "recall": 0.9052443328545204,
+      "f1_score": 0.8662694223825708,
+      "map50": 0.9002560243143444
+    },
+    "未戴头套": {
+      "precision": 0.897144334174457,
+      "recall": 0.9545938284319063,
+      "f1_score": 0.9249779066065952,
+      "map50": 0.9395712644556524
+    },
+    "未穿实验服": {
+      "precision": 0.8650196601404203,
+      "recall": 0.9279835390946503,
+      "f1_score": 0.8953960661598555,
+      "map50": 0.9278548200241727
+    },
+    "未戴口罩": {
+      "precision": 0.7826942220916563,
+      "recall": 0.8944170208968707,
+      "f1_score": 0.8348343466459033,
+      "map50": 0.8396646811647992
+    },
+    "未戴护目镜": {
+      "precision": 0.8583193132344518,
+      "recall": 0.8663697104677061,
+      "f1_score": 0.8623257232768136,
+      "map50": 0.87736375124772
+    }
+  },
+  "provenance_status": "legacy_unverified",
+  "warning": "This report predates the current deployed checkpoint; its correspondence to that checkpoint is unverified. Filename groups overlap across splits, but actual capture sources have not been verified.",
+  "source_overlap_basis": "filename groups only; actual capture sources are unverified",
+  "source_overlap_train_test": 31
+}

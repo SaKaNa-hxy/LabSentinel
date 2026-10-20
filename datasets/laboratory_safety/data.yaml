@@ -1,0 +1,7 @@
+path: C:/Users/HXY/Desktop/Design/datasets/laboratory_safety
+train: images/train
+val: images/val
+test: images/test
+
+nc: 12
+names: ['Drinking', 'Eating', 'Gloves', 'Googles', 'Head Mask', 'Lab Coat', 'Mask', 'No Gloves', 'No Head Mask', 'No Lab coat', 'No Mask', 'No googles']

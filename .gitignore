@@ -1,0 +1,15 @@
+.env
+.venv/
+.idea/
+.ultralytics/
+__pycache__/
+*.pyc
+*.cache
+*.pt
+*.log
+runs/
+storage/history/
+asset/evaluations/
+datasets/laboratory_safety/images/
+datasets/laboratory_safety/labels/
+datasets/laboratory_safety_grouped/*.txt
