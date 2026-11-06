@@ -15,7 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DATASET = ROOT / "datasets" / "laboratory_safety"
-OUTPUT = ROOT / "datasets" / "laboratory_safety_grouped"
+OUTPUT = DATASET
 SPLITS = ("train", "val", "test")
 RATIOS = {"train": 0.7, "val": 0.2, "test": 0.1}
 IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".webp", ".bmp"}
@@ -133,11 +133,13 @@ def make_grouped_assignment(samples: list[dict], seed: int) -> dict[str, str]:
 
 
 def write_grouped_split(samples: list[dict], assignment: dict[str, str], seed: int) -> None:
+    if any((OUTPUT / f"{split}.txt").exists() for split in SPLITS):
+        raise FileExistsError("Frozen split manifests already exist; refusing to overwrite experiment membership")
     OUTPUT.mkdir(parents=True, exist_ok=True)
     for split in SPLITS:
         paths = sorted(str(item["path"].resolve()).replace("\\", "/") for item in samples if assignment[item["source"]] == split)
         (OUTPUT / f"{split}.txt").write_text("\n".join(paths) + "\n", encoding="utf-8")
-    names = ["Drinking", "Eating", "Gloves", "Googles", "Head Mask", "Lab Coat", "Mask", "No Gloves", "No Head Mask", "No Lab coat", "No Mask", "No googles"]
+    names = ["Drinking", "Eating", "Gloves", "Goggles", "Head Mask", "Lab Coat", "Mask", "No Gloves", "No Head Mask", "No Lab coat", "No Mask", "No goggles"]
     yaml = "path: " + str(OUTPUT.resolve()).replace("\\", "/") + "\n"
     yaml += "train: train.txt\nval: val.txt\ntest: test.txt\nnc: 12\n"
     yaml += "names: " + json.dumps(names, ensure_ascii=False) + "\n"
@@ -157,7 +159,17 @@ def main() -> None:
         assignment = make_grouped_assignment(samples, args.seed)
         write_grouped_split(samples, assignment, args.seed)
     else:
-        print(json.dumps(summarize(samples), ensure_ascii=False, indent=2))
+        if all((OUTPUT / f"{split}.txt").exists() for split in SPLITS):
+            assignment = {}
+            for split in SPLITS:
+                for line in (OUTPUT / f"{split}.txt").read_text(encoding="utf-8").splitlines():
+                    group = source_key(Path(line))
+                    if group in assignment and assignment[group] != split:
+                        raise ValueError(f"Group occurs in multiple splits: {group}")
+                    assignment[group] = split
+            print(json.dumps(summarize(samples, assignment), ensure_ascii=False, indent=2))
+        else:
+            print(json.dumps(summarize(samples), ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":

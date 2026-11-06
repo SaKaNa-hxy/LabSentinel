@@ -9,7 +9,22 @@ __pycache__/
 *.log
 runs/
 storage/history/
-asset/evaluations/
-datasets/laboratory_safety/images/
-datasets/laboratory_safety/labels/
-datasets/laboratory_safety_grouped/*.txt
+# Keep evaluation reports and tables; generated plots and example images stay local.
+asset/evaluations/**/*.png
+asset/evaluations/**/*.jpg
+asset/evaluations/**/*.jpeg
+asset/evaluations/**/*.webp
+datasets/**/images/
+datasets/**/labels/
+# Frozen image lists and detailed hash/crop manifests belong to the local data bundle.
+datasets/**/train.txt
+datasets/**/val.txt
+datasets/**/test.txt
+datasets/**/*manifest.json
+asset/coat_audit_20261027/before_audit_labels_and_metadata.zip
+asset/coat_audit_20261027/baseline_sha256.json
+asset/coat_audit_20261027/applied_changes.json
+asset/coat_audit_20261027/review_records.json
+asset/coat_audit_20261027/review_results.csv
+.aris/
+.github-sync/

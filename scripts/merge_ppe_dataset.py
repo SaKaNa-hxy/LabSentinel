@@ -14,7 +14,7 @@ CLASS_NAMES = [
     "Drinking",
     "Eating",
     "Gloves",
-    "Googles",
+    "Goggles",
     "Head Mask",
     "Lab Coat",
     "Mask",
@@ -22,7 +22,7 @@ CLASS_NAMES = [
     "No Head Mask",
     "No Lab coat",
     "No Mask",
-    "No googles",
+    "No goggles",
 ]
 
 if not SOURCE.is_dir():

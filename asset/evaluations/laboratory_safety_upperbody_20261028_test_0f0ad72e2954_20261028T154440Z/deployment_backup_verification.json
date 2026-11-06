@@ -1,0 +1,7 @@
+{
+  "deployed_sha256": "0f0ad72e29548695b6ad8dea6d162b2a36fd8361f85e13acc264722312a6b69a",
+  "previous_sha256": "64ce2033b6ba415b2d0fa6464a142eda349dd26744a7af4bb29030597ab8402e",
+  "verified_backups": [
+    "C:\\Users\\HXY\\Desktop\\Design\\models\\laboratory_safety\\weights\\best_backup_before_grouped_20261028_234552.pt"
+  ]
+}

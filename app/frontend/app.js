@@ -200,8 +200,9 @@ window.addEventListener('resize', () => {
   resizeAdaptiveFrame($('#resultImageWrap'));
 });
 
-function renderSignals(counts = {}) {
-  $('#signalGrid').innerHTML = Object.entries(classMeta).map(([key, meta]) => `<div class="signal-card" data-category="${meta[2]}"><span class="signal-icon" aria-hidden="true">${meta[0]}</span><b>${meta[1]}</b><small>${categoryLabels[meta[2]]} / <strong>${counts[key] || 0}</strong> 个目标</small></div>`).join('');
+function renderSignals(counts = {}, risk = {}) {
+  const pendingCoat = (risk.pending_events || []).some(event => event.key === 'no_lab_coat') && !(risk.events || []).some(event => event.key === 'no_lab_coat');
+  $('#signalGrid').innerHTML = Object.entries(classMeta).map(([key, meta]) => `<div class="signal-card" data-category="${meta[2]}"><span class="signal-icon" aria-hidden="true">${meta[0]}</span><b>${meta[1]}</b><small>${key === 'no_lab_coat' && pendingCoat ? '待复核检测' : categoryLabels[meta[2]]} / <strong>${counts[key] || 0}</strong> 个目标</small></div>`).join('');
 }
 
 function renderRisk(risk) {
@@ -211,20 +212,26 @@ function renderRisk(risk) {
   $('#eventList').innerHTML = hasEvents
     ? events.map((event) => `<span class="event-badge event-${event.key}"><i></i>${event.label}</span>`).join('')
     : '<span class="event-empty">暂未发现进食、饮水或 PPE 风险</span>';
+  if ((risk.pending_events || []).length) {
+    if (!hasEvents) $('#eventList').innerHTML = '';
+    $('#eventList').innerHTML += risk.pending_events.map(event => `<span class="event-pending">待复核：${escapeHtml(event.label)}</span>`).join('');
+  }
   $('#riskSummary').textContent = risk.summary;
   $('#recommendationList').innerHTML = risk.recommendations.map((item) => `<li>${item}</li>`).join('');
 }
 
-function renderDetections(detections = []) {
+function renderDetections(detections = [], risk = {}) {
   if (!detections.length) {
     $('#detectionList').innerHTML = '<div class="detection-empty">未检测到目标，可降低置信度或换一张更清晰的图片复核</div>';
     return;
   }
+  const pendingFrames = new Set((((risk.temporal_confirmation || {}).no_lab_coat || {}).pending_frames || []));
   $('#detectionList').innerHTML = detections.map((item, index) => {
     const meta = classMeta[item.class_name] || ['•', item.class_name || '未知目标', 'TARGET'];
     const confidenceText = `${Math.round(Number(item.confidence || 0) * 100)}%`;
     const bboxText = Array.isArray(item.bbox) ? item.bbox.map((value) => Number(value).toFixed(0)).join(', ') : '—';
-    const frameText = item.frame ? `<span>第 ${escapeHtml(item.frame)} 帧</span>` : '';
+    const pending = item.class_name === 'no_lab_coat' && pendingFrames.has(item.frame);
+    const frameText = (item.frame ? `<span>第 ${escapeHtml(item.frame)} 帧</span>` : '') + (pending ? '<span>待复核，未满足连续2帧</span>' : '');
     const riskClass = meta[2] === 'RISK' || meta[2] === 'BEHAVIOR' ? ' detection-item-risk' : '';
     return `<article class="detection-item${riskClass}"><div class="detection-main"><strong>${index + 1}</strong><div><b>${escapeHtml(meta[1])}</b><small>${escapeHtml(categoryLabels[meta[2]] || meta[2])} ${frameText}</small></div></div><div class="detection-meta"><span>${confidenceText}</span><small>坐标 ${escapeHtml(bboxText)}</small></div></article>`;
   }).join('');
@@ -253,7 +260,7 @@ async function saveHistory(source, blob, analysis, frameIndex = null) {
   const imageBlob = analysis.image ? await (await fetch(analysis.image)).blob() : blob;
   formData.append('file', imageBlob, 'annotated.jpg');
   formData.append('source', source);
-  formData.append('analysis', JSON.stringify({ risk: analysis.risk, detections: analysis.detections, warning: analysis.warning, image_size: analysis.image_size }));
+  formData.append('analysis', JSON.stringify({ risk: analysis.risk, detections: analysis.detections, warning: analysis.warning, image_size: analysis.image_size, postprocessing: analysis.postprocessing, video_context: analysis.video_context }));
   if (frameIndex !== null && frameIndex !== undefined) formData.append('frame_index', String(frameIndex));
   const response = await fetch('/api/history', { method: 'POST', body: formData });
   const data = await response.json();
@@ -302,6 +309,46 @@ function hasRisk(data) {
   return Boolean(data && data.risk && (data.risk.events || []).length);
 }
 
+function videoCoatConfirmation(detections) {
+  const detected = [...new Set(detections.filter(item => item.class_name === 'no_lab_coat' && Number.isInteger(item.frame) && item.frame > 0).map(item => item.frame))].sort((a, b) => a - b);
+  const frames = new Set(detected);
+  const confirmed = detected.filter(frame => frames.has(frame - 1) || frames.has(frame + 1));
+  const confirmedSet = new Set(confirmed);
+  return { minimum_consecutive_frames: 2, detected_frames: detected, confirmed_frames: confirmed, pending_frames: detected.filter(frame => !confirmedSet.has(frame)), unit: 'sampled_keyframe', person_tracking: 'not_available' };
+}
+
+function applyVideoCoatConfirmation(risk, evidence, selectedFrames = null) {
+  const selected = selectedFrames ? new Set(selectedFrames) : null;
+  const relevant = frames => frames.filter(frame => !selected || selected.has(frame));
+  const detected = relevant(evidence.detected_frames);
+  const confirmed = relevant(evidence.confirmed_frames);
+  const pending = relevant(evidence.pending_frames);
+  const supporting = new Set();
+  const allFrames = new Set(evidence.detected_frames);
+  confirmed.forEach(frame => {
+    let start = frame, end = frame;
+    while (allFrames.has(start - 1)) start -= 1;
+    while (allFrames.has(end + 1)) end += 1;
+    for (let index = start; index <= end; index += 1) supporting.add(index);
+  });
+  const original = (risk.events || []).find(event => event.key === 'no_lab_coat');
+  const events = (risk.events || []).filter(event => event.key !== 'no_lab_coat');
+  const pendingEvents = (risk.pending_events || []).filter(event => event.key !== 'no_lab_coat');
+  if (confirmed.length) events.push({ ...(original || {}), key: 'no_lab_coat', label: '未穿实验服（连续多帧检出）', source: 'visual_detection', confirmation: 'consecutive_sampled_frames', evidence_frames: [...supporting].sort((a, b) => a - b) });
+  if (pending.length) pendingEvents.push({ key: 'no_lab_coat', label: '未穿实验服（未连续检出）', source: 'visual_detection', status: 'pending_temporal_confirmation', evidence_frames: pending });
+  const missingPpe = (risk.missing_ppe || []).filter(item => item.class_name !== 'no_lab_coat' || (confirmed.length && (item.frame === undefined || confirmed.includes(item.frame))));
+  const prefix = selected ? '当前采样帧' : '视频关键帧分析';
+  const pendingNote = pending.length ? ` 未穿实验服仅在第 ${pending.join('、')} 个采样关键帧出现提示，未满足连续2帧检出条件，列为待复核。` : '';
+  return {
+    ...risk,
+    title: events.length ? `${prefix}风险提示` : (pending.length ? '实验服状态待复核' : '暂未发现明确安全事件'),
+    summary: (events.length ? `${prefix}保留 ${events.length} 类风险提示。` : `${prefix}暂未形成确认的风险提示。`) + pendingNote,
+    events, pending_events: pendingEvents, missing_ppe: missingPpe,
+    recommendations: !events.length && pending.length ? ['复核待确认关键帧及相邻画面的实际衣物', '结合其他角度确认衣领、袖子和衣服款式'] : risk.recommendations,
+    temporal_confirmation: { ...(risk.temporal_confirmation || {}), no_lab_coat: { ...evidence, detected_frames: detected, confirmed_frames: confirmed, pending_frames: pending, supporting_frames: [...supporting].sort((a, b) => a - b) } }
+  };
+}
+
 function mergeVideoResults(results) {
   const counts = { drinking: 0, eating: 0, gloves: 0, goggles: 0, head_mask: 0, lab_coat: 0, mask: 0, no_gloves: 0, no_head_mask: 0, no_lab_coat: 0, no_mask: 0, no_goggles: 0 };
   const eventMap = new Map();
@@ -310,14 +357,28 @@ function mergeVideoResults(results) {
   results.forEach((result, index) => {
     detections.push(...result.detections.map((item) => ({ ...item, frame: index + 1 })));
     Object.entries(result.risk.counts || {}).forEach(([key, value]) => { counts[key] = Math.max(counts[key] || 0, value); });
-    (result.risk.events || []).forEach((event) => eventMap.set(event.key, event));
+    (result.risk.events || []).forEach((event) => {
+      const previous = eventMap.get(event.key);
+      if (previous && previous.source !== event.source) {
+        const sources = [...new Set([...(previous.evidence_sources || [previous.source]), ...(event.evidence_sources || [event.source])])];
+        eventMap.set(event.key, {
+          ...event,
+          source: 'mixed_evidence',
+          evidence_sources: sources,
+          evidence_classes: [...new Set([...(previous.evidence_classes || []), ...(event.evidence_classes || [])])],
+          label: event.key === 'no_mask' && sources.includes('behavior_inference') ? '未戴口罩（检测/行为推断）' : event.label
+        });
+      } else {
+        eventMap.set(event.key, event);
+      }
+    });
     (result.risk.missing_ppe || []).forEach((item) => missingPpe.push({ ...item, frame: index + 1 }));
   });
   const events = [...eventMap.values()];
   const recommendations = events.length
     ? ['复核视频中出现风险的关键帧', '对进食、饮水和 PPE 风险进行现场确认', '保留视频分析结果作为巡检记录']
     : ['继续保持实验区域整洁和通风', '建议结合更多角度视频复核检测结果', '分析结果仅作为安全辅助判断'];
-  const risk = {
+  const rawRisk = {
     title: events.length ? '视频中发现风险事件' : '视频中未发现明确安全事件',
     summary: events.length ? `视频关键帧分析发现 ${events.length} 类风险事件。` : '已完成视频关键帧分析，暂未发现进食、饮水或 PPE 风险。',
     events,
@@ -328,6 +389,7 @@ function mergeVideoResults(results) {
     counts_semantics: 'maximum_per_frame',
     confidence_by_class: {}
   };
+  const risk = applyVideoCoatConfirmation(rawRisk, videoCoatConfirmation(detections));
   const representative = results.find(hasRisk) || results[results.length - 1];
   return { ...representative, detections, risk, frame_count: results.length };
 }
@@ -347,10 +409,12 @@ async function analyzeVideo() {
     results.push({ blob, data: frameAnalysis, frameIndex: index + 1 });
   }
   const data = mergeVideoResults(results.map((item) => item.data));
+  const videoContext = { analysis_id: analysisContextId, coat_evidence: data.detections.filter(item => item.class_name === 'no_lab_coat') };
   latestAnalysis = data;
   let latestRecord = null;
   for (const frame of results) {
-    latestRecord = await saveHistory('video', frame.blob, frame.data, frame.frameIndex);
+    const risk = applyVideoCoatConfirmation(frame.data.risk, data.risk.temporal_confirmation.no_lab_coat, [frame.frameIndex]);
+    latestRecord = await saveHistory('video', frame.blob, { ...frame.data, risk, video_context: videoContext }, frame.frameIndex);
   }
   currentHistoryRecordId = latestRecord && latestRecord.id;
   reportBtn.disabled = false;
@@ -370,8 +434,8 @@ function renderAnalysis(data, timeText) {
   $('#resultTime').textContent = timeText;
   renderRisk(data.risk);
   if (data.warning) $('#riskSummary').textContent += ` 模型提示：${data.warning}`;
-  renderDetections(data.detections);
-  renderSignals(data.risk.counts);
+  renderDetections(data.detections, data.risk);
+  renderSignals(data.risk.counts, data.risk);
   if (currentMode !== 'camera') document.querySelector('#resultsSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
@@ -507,9 +571,11 @@ function renderHistory() {
   }
   $('#historyGrid').innerHTML = visibleItems.map((item) => {
     const risk = item.risk || {};
-    const events = (risk.events || []).map((event) => escapeHtml(event.label)).join('、') || '未发现明确风险';
+    const eventLabels = (risk.events || []).map((event) => escapeHtml(event.label));
+    const pendingLabels = (risk.pending_events || []).map(event => `待复核：${escapeHtml(event.label)}`);
+    const events = [...eventLabels, ...pendingLabels].join('、') || '未发现明确风险';
     const frame = item.frame_index ? `<span>第 ${escapeHtml(item.frame_index)} 帧</span>` : '';
-    const riskClass = (risk.events || []).length ? 'history-risk warning' : 'history-risk safe';
+    const riskClass = (risk.events || []).length ? 'history-risk warning' : (pendingLabels.length ? 'history-risk pending' : 'history-risk safe');
     return `<article class="history-card" data-preview-id="${escapeHtml(item.id)}"><button class="history-preview-btn" type="button" aria-label="放大查看${escapeHtml(item.source_label)}图片，${escapeHtml(formatHistoryTime(item.created_at))}"><img class="history-thumb" src="${escapeHtml(item.image_url)}" alt="${escapeHtml(item.source_label)}截图"><span class="history-zoom-hint" aria-hidden="true">查看大图 ⤢</span></button><div class="history-card-body"><div class="history-card-top"><span class="history-source source-${escapeHtml(item.source)}">${escapeHtml(item.source_label)}</span><button class="history-delete" data-history-id="${escapeHtml(item.id)}" type="button">删除</button></div><div class="history-time">${escapeHtml(formatHistoryTime(item.created_at))} ${frame}</div><h3>${escapeHtml(risk.title || '分析结果')}</h3><p class="${riskClass}">${events}</p></div></article>`;
   }).join('');
 }

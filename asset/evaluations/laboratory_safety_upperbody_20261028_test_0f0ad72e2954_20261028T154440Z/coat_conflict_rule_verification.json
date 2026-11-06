@@ -1,0 +1,225 @@
+{
+  "verified_at_utc": "2026-10-28T15:52:41.107485+00:00",
+  "diagnostic_image": "C:\\Users\\HXY\\AppData\\Local\\Temp\\codex-clipboard-abeb0930-8b04-4fb6-9944-98914234ce69.png",
+  "model_sha256": "0f0ad72e29548695b6ad8dea6d162b2a36fd8361f85e13acc264722312a6b69a",
+  "inference_script_sha256": "b7b2efa857e4f65503cfc198aac48a9a5e668397c38956814018e36f23f393c1",
+  "detections": [
+    {
+      "class_id": 2,
+      "class_name": "gloves",
+      "confidence": 0.9293,
+      "bbox": [
+        78.11,
+        262.11,
+        133.58,
+        323.17
+      ]
+    },
+    {
+      "class_id": 2,
+      "class_name": "gloves",
+      "confidence": 0.7571,
+      "bbox": [
+        135.76,
+        351.01,
+        202.07,
+        375.99
+      ]
+    },
+    {
+      "class_id": 8,
+      "class_name": "no_head_mask",
+      "confidence": 0.7398,
+      "bbox": [
+        196.92,
+        46.43,
+        320.05,
+        168.69
+      ]
+    },
+    {
+      "class_id": 10,
+      "class_name": "no_mask",
+      "confidence": 0.7396,
+      "bbox": [
+        217.61,
+        149.26,
+        279.51,
+        190.06
+      ]
+    },
+    {
+      "class_id": 5,
+      "class_name": "lab_coat",
+      "confidence": 0.7213,
+      "bbox": [
+        88.83,
+        176.83,
+        368.45,
+        376.0
+      ]
+    },
+    {
+      "class_id": 11,
+      "class_name": "no_goggles",
+      "confidence": 0.2474,
+      "bbox": [
+        213.25,
+        135.67,
+        238.71,
+        152.55
+      ]
+    },
+    {
+      "class_id": 2,
+      "class_name": "gloves",
+      "confidence": 0.2279,
+      "bbox": [
+        9.29,
+        368.61,
+        70.21,
+        375.95
+      ]
+    },
+    {
+      "class_id": 4,
+      "class_name": "head_mask",
+      "confidence": 0.1542,
+      "bbox": [
+        302.06,
+        121.92,
+        348.31,
+        174.27
+      ]
+    }
+  ],
+  "risk": {
+    "title": "防护装备未完整",
+    "summary": "PPE 模型输出：检测到未佩戴口罩目标、检测到未佩戴护目镜目标、检测到未佩戴头套目标。当前尚未关联到具体人员，需现场复核。",
+    "events": [
+      {
+        "key": "no_mask",
+        "label": "检测到未佩戴口罩目标",
+        "source": "visual_detection"
+      },
+      {
+        "key": "no_goggles",
+        "label": "检测到未佩戴护目镜目标",
+        "source": "visual_detection"
+      },
+      {
+        "key": "no_head_mask",
+        "label": "检测到未佩戴头套目标",
+        "source": "visual_detection"
+      }
+    ],
+    "detected_hazards": 0,
+    "missing_ppe": [
+      {
+        "class_name": "no_mask",
+        "label": "检测到未佩戴口罩目标",
+        "count": 1,
+        "missing": [
+          "mask"
+        ],
+        "source": "visual_detection"
+      },
+      {
+        "class_name": "no_goggles",
+        "label": "检测到未佩戴护目镜目标",
+        "count": 1,
+        "missing": [
+          "goggles"
+        ],
+        "source": "visual_detection"
+      },
+      {
+        "class_name": "no_head_mask",
+        "label": "检测到未佩戴头套目标",
+        "count": 1,
+        "missing": [
+          "head_mask"
+        ],
+        "source": "visual_detection"
+      }
+    ],
+    "recommendations": [
+      "现场确认目标与人员的对应关系后补齐防护装备",
+      "按实验室实际要求确认所需 PPE",
+      "复核遮挡、漏检或误检情况"
+    ],
+    "counts": {
+      "drinking": 0,
+      "eating": 0,
+      "gloves": 3,
+      "goggles": 0,
+      "head_mask": 1,
+      "lab_coat": 1,
+      "mask": 0,
+      "no_gloves": 0,
+      "no_head_mask": 1,
+      "no_lab_coat": 0,
+      "no_mask": 1,
+      "no_goggles": 1
+    },
+    "confidence_by_class": {
+      "gloves": [
+        0.9293,
+        0.7571,
+        0.2279
+      ],
+      "no_head_mask": [
+        0.7398
+      ],
+      "no_mask": [
+        0.7396
+      ],
+      "lab_coat": [
+        0.7213
+      ],
+      "no_goggles": [
+        0.2474
+      ],
+      "head_mask": [
+        0.1542
+      ]
+    },
+    "person_association": "not_available"
+  },
+  "postprocessing": {
+    "rule": "lab_coat_priority",
+    "scope": "same_frame_overlap",
+    "iou_threshold": 0.7,
+    "raw_detection_count": 9,
+    "suppressed_detections": [
+      {
+        "detection": {
+          "class_id": 9,
+          "class_name": "no_lab_coat",
+          "confidence": 0.477,
+          "bbox": [
+            104.66,
+            175.46,
+            369.0,
+            376.0
+          ]
+        },
+        "matched_lab_coat": {
+          "class_id": 5,
+          "class_name": "lab_coat",
+          "confidence": 0.7213,
+          "bbox": [
+            88.83,
+            176.83,
+            368.45,
+            376.0
+          ]
+        },
+        "overlap_iou": 0.9355,
+        "rule": "lab_coat_priority"
+      }
+    ]
+  },
+  "annotated_image_preview": "C:\\Users\\HXY\\.codex\\visualizations\\2026\\10\\26\\01a17856-582f-7920-b83d-8f3e9fdf3e65\\coat_conflict_rule_20261028.jpg",
+  "note": "Application postprocessing verification on a user diagnostic image; not a replacement for raw model test metrics."
+}

@@ -1,0 +1,39 @@
+{
+  "old_report": "C:\\Users\\HXY\\Desktop\\Design\\asset\\evaluations\\laboratory_safety_test_64ce2033b6ba_20261028T035521Z\\metrics_with_provenance.json",
+  "new_report": "C:\\Users\\HXY\\Desktop\\Design\\asset\\evaluations\\laboratory_safety_upperbody_20261028_test_0f0ad72e2954_20261028T154440Z\\metrics_with_provenance.json",
+  "same_val_test_lists": true,
+  "same_original_label_manifest": true,
+  "train_originals": 4998,
+  "train_crops_added": 3996,
+  "new_train_images": 8994,
+  "test_images": 735,
+  "test_targets": 5394,
+  "note": "Descriptive single-run comparison with the same held-out labels; no statistical or causal improvement claim.",
+  "overall": {
+    "precision": {
+      "old": 0.6491205115558755,
+      "new": 0.6772471409742403,
+      "delta_percentage_points": 2.8126629418364857
+    },
+    "recall": {
+      "old": 0.7954744188325215,
+      "new": 0.793906703141818,
+      "delta_percentage_points": -0.1567715690703464
+    },
+    "f1": {
+      "old": 0.714883806969127,
+      "new": 0.7309514868937999,
+      "delta_percentage_points": 1.606767992467284
+    },
+    "map50": {
+      "old": 0.7222058375298724,
+      "new": 0.7582407281430158,
+      "delta_percentage_points": 3.6034890613143356
+    },
+    "map50_95": {
+      "old": 0.5022563366370854,
+      "new": 0.5264192575795847,
+      "delta_percentage_points": 2.416292094249939
+    }
+  }
+}

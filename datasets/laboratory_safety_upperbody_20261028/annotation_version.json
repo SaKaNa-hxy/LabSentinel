@@ -1,0 +1,25 @@
+{
+  "version": "upperbody_20261028_v1",
+  "parent_version": "coat_audit_20261027_v1",
+  "label_file_count": 11213,
+  "generated_crops": 3996,
+  "scope": "Training-only deterministic upper-body crops; original dataset untouched",
+  "created_at_utc": "2026-10-28T04:36:41.403883+00:00",
+  "script_sha256": "e27a9e0106c4f4af1eafa182405ddd53b5c728378379fe84131408ae81769982",
+  "parameters": {
+    "upper_fractions": [
+      0.65,
+      0.75,
+      0.55,
+      0.8
+    ],
+    "min_garment_width": 45,
+    "min_garment_height": 100,
+    "minimum_retained_area": {
+      "behavior": 0.98,
+      "garment": 0.4,
+      "other_ppe": 0.65
+    },
+    "jpeg_quality": 95
+  }
+}

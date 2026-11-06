@@ -1,0 +1,98 @@
+{
+  "state": "verified",
+  "verified_at_utc": "2026-10-28T04:37:38.132370+00:00",
+  "generated_crops": 3996,
+  "labels_checked": 11213,
+  "images_hashed": 11213,
+  "all_crops_decoded": true,
+  "all_crop_coordinates_independently_checked": true,
+  "original_images_and_labels_unchanged": true,
+  "frozen_val_test_lists_byte_identical": true,
+  "train_only_provenance_verified": true,
+  "overlapping_parent_filename_groups": 0,
+  "target_class_counts": {
+    "5": 1998,
+    "9": 1998
+  },
+  "generated_object_counts": {
+    "11": 1984,
+    "6": 823,
+    "5": 2176,
+    "4": 1952,
+    "7": 2628,
+    "8": 2247,
+    "0": 1355,
+    "10": 675,
+    "2": 3166,
+    "3": 2260,
+    "1": 1321,
+    "9": 2126
+  },
+  "split_stats": {
+    "train": {
+      "images": 8994,
+      "objects": [
+        3537,
+        3467,
+        8657,
+        5789,
+        5114,
+        5493,
+        2057,
+        7911,
+        5909,
+        5954,
+        1896,
+        5306
+      ]
+    },
+    "val": {
+      "images": 1484,
+      "objects": [
+        574,
+        594,
+        1465,
+        933,
+        973,
+        1323,
+        346,
+        1502,
+        889,
+        662,
+        356,
+        928
+      ]
+    },
+    "test": {
+      "images": 735,
+      "objects": [
+        250,
+        256,
+        544,
+        482,
+        613,
+        502,
+        232,
+        967,
+        340,
+        538,
+        202,
+        468
+      ]
+    }
+  },
+  "semantic_review_scope": "Geometric validation for all crops; visual spot check recorded separately. No claim that all source labels are semantically certified.",
+  "verified_dataset_files_sha256": {
+    "data.yaml": "b8f6e5f605164e2262c7f690b543ae2d51e55447018971fac40b83f203899592",
+    "train.txt": "b73c933508d55684052bfdac0ed6df638248579dd8fb39f22b9810c3b99e8c93",
+    "val.txt": "23405742d22a9e65ee032dfae9bd5a45822d79ecf86f084aa9c630f17a88586f",
+    "test.txt": "6e69d3649da05ff5051d9641d66f99d54935b6e7e3fae0b16faaa40a075b3753",
+    "label_manifest.json": "2673c711e353da359e6f48ae1161dcc65de48df87bac408998ca1a6f03c7bfd7",
+    "image_manifest.json": "6be8373a5247639befa7585a5d6e71286070886124dd40cc4b422618b06092fa",
+    "annotation_version.json": "31f6ff17d696458ac8dcf1b594833a16d17b2649b07c23d8fa2829ab662bca49",
+    "audit.json": "00dcdccd9353f5cab97e0e5d1185412b4e1af1758f033686f68fd1f227c4319b",
+    "crop_manifest.json": "8f5abebcb701a6356c73f939c001e039eb774f5e96df2b594054928329988cdf",
+    "parent_manifest.json": "b7da03aa18df9298c04664ae292147810d175dba10248f68db762014cf6bad14"
+  },
+  "verifier_script_sha256": "db3dcd1c2672680b663d7c4212ca0a736e016b3b35bfbfa2c427113d68ca0f05"
+}

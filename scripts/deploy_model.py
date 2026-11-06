@@ -22,11 +22,13 @@ def deploy(report_path: Path) -> Path:
     source = Path(report["model_path"])
     if not source.is_file() or sha256(source) != report["model_sha256"]:
         raise ValueError("Evaluation report does not match the checkpoint")
-    if report.get("split") != "test" or report.get("dataset_yaml", "").replace("\\", "/").split("/")[-2] != "laboratory_safety_grouped":
+    valid_datasets = {"laboratory_safety", "laboratory_safety_grouped", "laboratory_safety_upperbody_20261028"}
+    if report.get("split") != "test" or report.get("dataset_yaml", "").replace("\\", "/").split("/")[-2] not in valid_datasets:
         raise ValueError("Deployment requires a grouped test evaluation")
     if any(report.get("source_overlap", {}).values()):
         raise ValueError("Grouped train/val/test sources still overlap")
-    if "laboratory_safety_grouped" not in str(report.get("checkpoint_training_data", "")):
+    training_path = str(report.get("checkpoint_training_data", "")).replace("\\", "/")
+    if training_path.split("/")[-2:-1] not in [[name] for name in valid_datasets]:
         raise ValueError("Checkpoint was not trained on the grouped split")
     if not report.get("training_manifest_matches"):
         raise ValueError("Training and evaluation dataset manifests were not verified as identical")

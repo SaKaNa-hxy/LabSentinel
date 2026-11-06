@@ -9,9 +9,9 @@ from dataclasses import dataclass, field
 from typing import Any, Optional
 
 try:
-    from .risk_engine import analyze_risk
+    from .risk_engine import analyze_risk, apply_video_coat_confirmation
 except ImportError:
-    from risk_engine import analyze_risk
+    from risk_engine import analyze_risk, apply_video_coat_confirmation
 
 
 CATEGORY_ALIASES = {
@@ -115,6 +115,7 @@ class ConversationContext:
             categories = []
 
         facts = deepcopy(self.facts)
+        temporal_evidence = facts.pop("temporal_evidence", None)
         detections = facts.get("detections") or []
         available = sorted({value for item in detections if (value := detection_frame(item)) is not None})
         frame_count = facts.get("frame_count")
@@ -146,10 +147,22 @@ class ConversationContext:
             facts["detections"] = selected
             facts["risk"] = analyze_risk(selected)
             if categories:
+                # Rule evidence may be outside the selected model categories:
+                # a mask question must retain drinking/eating from this frame.
+                frame_risk = analyze_risk(frame_selected)
+                facts["risk"]["events"] = [event for event in frame_risk["events"] if event["key"] in classes]
+                facts["risk"]["missing_ppe"] = [item for item in frame_risk["missing_ppe"] if item["class_name"] in classes]
+                evidence_classes = {name for event in facts["risk"]["events"] for name in event.get("evidence_classes", [])}
+                facts["rule_evidence"] = [item for item in frame_selected if item.get("class_name") in evidence_classes]
+                if facts["risk"]["events"]:
+                    facts["risk"]["title"] = "相关风险提示"
+                    facts["risk"]["recommendations"] = frame_risk["recommendations"]
                 labels = "、".join(categories)
                 events = facts["risk"]["events"]
                 event_note = "；相关风险提示：" + "、".join(event["label"] for event in events) if events else "；未检出对应风险类"
                 facts["risk"]["summary"] = f"当前筛选的是{labels}相关类别，共有{len(selected)}个所选类别检测框{event_note}。这只描述所选类别，不能据此说明整帧没有其他目标或风险。"
+        if (facts.get("source_type") == "video" or frame_count) and (not categories or "no_lab_coat" in classes):
+            facts["risk"] = apply_video_coat_confirmation(facts.get("risk") or {}, selected, temporal_evidence or detections)
         scope = {
             "frames": frames,
             "categories": categories,

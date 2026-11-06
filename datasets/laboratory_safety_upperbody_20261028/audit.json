@@ -1,0 +1,170 @@
+{
+  "seed": 42,
+  "grouping": "filename prefix or normalized image name",
+  "source_verification": "unverified; filename groups do not establish actual capture sources",
+  "original": {
+    "splits": {
+      "train": {
+        "images": 5096,
+        "objects": [
+          2091,
+          2109,
+          5352,
+          3495,
+          3353,
+          3669,
+          1303,
+          5427,
+          3453,
+          3518,
+          1276,
+          3313
+        ],
+        "sources": 402
+      },
+      "val": {
+        "images": 1414,
+        "objects": [
+          608,
+          584,
+          1422,
+          965,
+          931,
+          981,
+          335,
+          1551,
+          947,
+          1000,
+          344,
+          935
+        ],
+        "sources": 136
+      },
+      "test": {
+        "images": 707,
+        "objects": [
+          307,
+          303,
+          726,
+          484,
+          464,
+          492,
+          174,
+          774,
+          491,
+          510,
+          159,
+          470
+        ],
+        "sources": 84
+      }
+    },
+    "overlapping_sources": {
+      "train_val": 31,
+      "train_test": 31,
+      "val_test": 31
+    }
+  },
+  "grouped": {
+    "splits": {
+      "train": {
+        "images": 8994,
+        "objects": [
+          3537,
+          3467,
+          8657,
+          5789,
+          5114,
+          5493,
+          2057,
+          7911,
+          5909,
+          5954,
+          1896,
+          5306
+        ],
+        "sources": 454
+      },
+      "val": {
+        "images": 1484,
+        "objects": [
+          574,
+          594,
+          1465,
+          933,
+          973,
+          1323,
+          346,
+          1502,
+          889,
+          662,
+          356,
+          928
+        ],
+        "sources": 69
+      },
+      "test": {
+        "images": 735,
+        "objects": [
+          250,
+          256,
+          544,
+          482,
+          613,
+          502,
+          232,
+          967,
+          340,
+          538,
+          202,
+          468
+        ],
+        "sources": 37
+      }
+    },
+    "overlapping_sources": {
+      "train_val": 0,
+      "train_test": 0,
+      "val_test": 0
+    }
+  },
+  "annotation_version": "coat_audit_20261027_v1",
+  "frozen_split_sha256": {
+    "train": "575786f0ced3a1ee6521ed442a98cbd0724fcaed542097949b5efd172be5f71d",
+    "val": "23405742d22a9e65ee032dfae9bd5a45822d79ecf86f084aa9c630f17a88586f",
+    "test": "6e69d3649da05ff5051d9641d66f99d54935b6e7e3fae0b16faaa40a075b3753"
+  },
+  "latest_annotation_review": {
+    "version": "coat_audit_20261027_v1",
+    "reviewed_train_images": 201,
+    "changed_train_labels": 88,
+    "report": "asset/coat_audit_20261027/实验服专项复核报告.md",
+    "split_membership_changed": false
+  },
+  "parent_dataset": "C:\\Users\\HXY\\Desktop\\Design\\datasets\\laboratory_safety",
+  "augmentation_summary": {
+    "eligible_by_target_class": {
+      "5": 1998,
+      "9": 2156
+    },
+    "selected_by_target_class": {
+      "5": 1998,
+      "9": 1998
+    },
+    "crops": 3996,
+    "omitted_for_class_balance": {
+      "5": 0,
+      "9": 158
+    },
+    "skipped_candidates": {
+      "ambiguous_partial_object": 845,
+      "small_garment": 3,
+      "insufficient_crop": 1
+    },
+    "original_train": 4998,
+    "new_train": 8994,
+    "val": 1484,
+    "test": 735
+  },
+  "augmentation_group_basis": "Every generated crop inherits its original train image group; original held-out lists are byte-identical. Real capture sources remain unverified."
+}

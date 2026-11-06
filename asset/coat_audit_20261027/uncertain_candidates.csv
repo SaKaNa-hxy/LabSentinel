@@ -1,0 +1,3 @@
+﻿id,image_path,label_path,issue
+C039,C:\Users\HXY\Desktop\Design\datasets\laboratory_safety\images\val\C1240_MP4-0112_jpg.rf.c83bd74c0b29f4176b3e24cf0ef110ba.jpg,C:\Users\HXY\Desktop\Design\datasets\laboratory_safety\labels\val\C1240_MP4-0112_jpg.rf.c83bd74c0b29f4176b3e24cf0ef110ba.txt,Far-left distant person garment below equipment is not reliably distinguishable as lab coat or ordinary clothing.
+C080,C:\Users\HXY\Desktop\Design\datasets\laboratory_safety\images\val\C1225_MP4-0073_jpg.rf.1ddaa565cb8001a1df0703d6b498b57d.jpg,C:\Users\HXY\Desktop\Design\datasets\laboratory_safety\labels\val\C1225_MP4-0073_jpg.rf.1ddaa565cb8001a1df0703d6b498b57d.txt,Tiny tan clothing sliver at extreme left is too occluded to assign a complete person garment.

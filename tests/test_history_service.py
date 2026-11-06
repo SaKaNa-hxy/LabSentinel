@@ -58,8 +58,12 @@ class HistoryServiceTests(unittest.TestCase):
                 history_service.RECORDS_FILE = Path(temporary) / "records.json"
                 image = io.BytesIO()
                 Image.new("RGB", (20, 20), "red").save(image, format="JPEG")
-                record = history_service.save_history("image", image.getvalue(), {"risk": {"events": []}, "detections": []})
+                processing = {"rule": "lab_coat_priority", "suppressed_detections": [{"detection": {"class_name": "no_lab_coat"}}]}
+                video_context = {"coat_evidence": [{"class_name": "no_lab_coat", "frame": 2}, {"class_name": "no_lab_coat", "frame": 3}]}
+                record = history_service.save_history("image", image.getvalue(), {"risk": {"events": []}, "detections": [], "postprocessing": processing, "video_context": video_context})
                 self.assertEqual(history_service.get_history(record["id"])["source"], "image")
+                self.assertEqual(history_service.get_history(record["id"])["postprocessing"], processing)
+                self.assertEqual(history_service.get_history(record["id"])["video_context"], video_context)
                 self.assertEqual(len(history_service.list_history()), 1)
                 self.assertTrue((history_service.HISTORY_DIR / record["id"] / "annotated.jpg").is_file())
                 self.assertTrue(history_service.delete_history(record["id"]))

@@ -1,0 +1,36 @@
+{
+  "version": "coat_audit_20261027_v1",
+  "reviewed_remaining_images": 76,
+  "previously_repaired_images": 126,
+  "confirmed_actions": {
+    "R241": {
+      "image_path": "C:\\Users\\HXY\\Desktop\\Design\\datasets\\laboratory_safety\\images\\test\\DSC01960_JPG.rf.eb7100b6a0d5ae7943978bf67ef1e0d6.jpg",
+      "label_path": "C:\\Users\\HXY\\Desktop\\Design\\datasets\\laboratory_safety\\labels\\test\\DSC01960_JPG.rf.eb7100b6a0d5ae7943978bf67ef1e0d6.txt",
+      "confirmed_class": 0,
+      "label_sha256": "7d6ea98b7473cd97d0db13e1fe8d6b1f788967410ac198cf36f2ac07679bdb8b",
+      "decision": "user_confirmed",
+      "label_content_change_required": false
+    },
+    "R268": {
+      "image_path": "C:\\Users\\HXY\\Desktop\\Design\\datasets\\laboratory_safety\\images\\train\\DSC02081_JPG.rf.895d00a79631cb5ce1dc54660f3ada0c.jpg",
+      "label_path": "C:\\Users\\HXY\\Desktop\\Design\\datasets\\laboratory_safety\\labels\\train\\DSC02081_JPG.rf.895d00a79631cb5ce1dc54660f3ada0c.txt",
+      "confirmed_class": 1,
+      "label_sha256": "aad3ed4615a963d43cfe02b796668bf7e2ff4df44a781544bb1fc359f24241a8",
+      "decision": "user_confirmed",
+      "label_content_change_required": false
+    }
+  },
+  "changes": "asset/coat_audit_20261027/applied_changes.json",
+  "split_membership_changed": false,
+  "semantic_scope": "This pass visually reviewed 201 effective-training images for garment classes; two tiny/occluded garment candidates remain uncertain. Other images are structurally checked, not individually certified. Prior review sets may overlap this pass.",
+  "evaluation_annotation_change": "13 formerly empty val/test labels filled before training; old metrics use different annotations",
+  "previous_version": "corrected_20261027",
+  "prior_changes_reference": "asset\\label_repair_remaining_20261026\\applied_changes.json",
+  "latest_review": {
+    "reviewed_images": 201,
+    "changed_labels": 88,
+    "scope": "garment classes 5/9, plus one erroneous coat label corrected to hairnet class 4",
+    "validation_and_test_annotations_changed": false,
+    "current_deployed_model_trained_on_previous_annotation_version": true
+  }
+}

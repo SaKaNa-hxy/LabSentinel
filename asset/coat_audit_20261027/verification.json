@@ -1,0 +1,106 @@
+{
+  "verified_at_utc": "2026-10-27T11:42:58.151121+00:00",
+  "annotation_version": "coat_audit_20261027_v1",
+  "reviewed_images": 201,
+  "initial_targeted_images": 200,
+  "consistency_followup_images": 1,
+  "reviewed_filename_groups": 130,
+  "selection_is_targeted_not_random": true,
+  "changed_train_labels": 88,
+  "retained_train_labels": 113,
+  "uncertain_candidates": [
+    {
+      "id": "C039",
+      "image_path": "C:\\Users\\HXY\\Desktop\\Design\\datasets\\laboratory_safety\\images\\val\\C1240_MP4-0112_jpg.rf.c83bd74c0b29f4176b3e24cf0ef110ba.jpg",
+      "label_path": "C:\\Users\\HXY\\Desktop\\Design\\datasets\\laboratory_safety\\labels\\val\\C1240_MP4-0112_jpg.rf.c83bd74c0b29f4176b3e24cf0ef110ba.txt",
+      "issue": "Far-left distant person garment below equipment is not reliably distinguishable as lab coat or ordinary clothing."
+    },
+    {
+      "id": "C080",
+      "image_path": "C:\\Users\\HXY\\Desktop\\Design\\datasets\\laboratory_safety\\images\\val\\C1225_MP4-0073_jpg.rf.1ddaa565cb8001a1df0703d6b498b57d.jpg",
+      "label_path": "C:\\Users\\HXY\\Desktop\\Design\\datasets\\laboratory_safety\\labels\\val\\C1225_MP4-0073_jpg.rf.1ddaa565cb8001a1df0703d6b498b57d.txt",
+      "issue": "Tiny tan clothing sliver at extreme left is too occluded to assign a complete person garment."
+    }
+  ],
+  "operations": {
+    "reclassified": 6,
+    "merged_garments": 40,
+    "merged_fragments_removed": 52,
+    "false_boxes_removed": 7,
+    "added": 61,
+    "adjusted": 11
+  },
+  "all_label_files_checked": 7217,
+  "total_boxes_before": 54314,
+  "total_boxes_after": 54316,
+  "class_counts_before": [
+    3006,
+    2996,
+    7500,
+    4944,
+    4747,
+    5133,
+    1812,
+    7752,
+    4891,
+    5036,
+    1779,
+    4718
+  ],
+  "class_counts_after": [
+    3006,
+    2996,
+    7500,
+    4944,
+    4748,
+    5142,
+    1812,
+    7752,
+    4891,
+    5028,
+    1779,
+    4718
+  ],
+  "empty_labels": 0,
+  "invalid_rows": 0,
+  "out_of_bounds_boxes": 0,
+  "exact_duplicate_boxes": 0,
+  "effective_split_images": {
+    "train": 4998,
+    "val": 1484,
+    "test": 735
+  },
+  "split_manifests_unchanged": true,
+  "validation_label_files_unchanged": 1484,
+  "test_label_files_unchanged": 735,
+  "reviewed_image_files_unchanged": true,
+  "unreviewed_label_files_unchanged": true,
+  "non_garment_annotation_rows_unchanged": true,
+  "exception_from_garment_class_to_hairnet": {
+    "id": "C122",
+    "original_line": 3,
+    "before_class": 5,
+    "after_class": 4
+  },
+  "historical_training_files_unchanged": true,
+  "deployed_weights_unchanged": true,
+  "deployed_weights_sha256": "ca28182b38d537ea476251abbb7db59d21105e69b2b8214dfeca25138de0abbf",
+  "label_manifest_sha256": "5e0acd0b6cf4194c0085743db135874f15de301325fdbc5ebd1c4eaf6661a9f7",
+  "frozen_files_sha256": {
+    "data.yaml": "14fca4abd2bfabacba15f3156efa207ac40f7fe83f0519cc51eef76040a16ba7",
+    "train.txt": "575786f0ced3a1ee6521ed442a98cbd0724fcaed542097949b5efd172be5f71d",
+    "val.txt": "23405742d22a9e65ee032dfae9bd5a45822d79ecf86f084aa9c630f17a88586f",
+    "test.txt": "6e69d3649da05ff5051d9641d66f99d54935b6e7e3fae0b16faaa40a075b3753"
+  },
+  "backup_crc_and_all_entry_hashes_verified": true,
+  "backup_sha256": "775a237b766c2375ba037a15bb1fe831f34373c0bd505caf486756126eddf23e",
+  "previous_annotation_version": "corrected_20261027",
+  "model_retraining_performed": false,
+  "existing_test_metrics_are_historical": true,
+  "metadata_sha256": {
+    "audit.json": "586ba3ec5df3e93439d23aa11131a16ab95dad0a11f41b4c12f943307755788c",
+    "annotation_version.json": "c751084a87fcb815a5e1190ec9cf71298375b62d226d17e50b9c2bc69e60573d",
+    "label_manifest.json": "5e0acd0b6cf4194c0085743db135874f15de301325fdbc5ebd1c4eaf6661a9f7"
+  },
+  "backup_annotation_manifest_matches_previous_training": true
+}

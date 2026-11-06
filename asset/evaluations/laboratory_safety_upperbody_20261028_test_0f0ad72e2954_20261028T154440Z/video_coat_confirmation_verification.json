@@ -1,0 +1,62 @@
+{
+  "verified_at_utc": "2026-10-28T16:04:41.041Z",
+  "source": "Read-only replay of the saved 8-frame user video analysis",
+  "source_history_sha256": "1b9ec451d93d769e84d5ff27be20171f48ebe713b7c3f30e858eaab20ad6b4f8",
+  "app_script_sha256": "10f7e21cd91f49e403b26442aeb7ef842eee1738a098c5b06432ddc364e04baf",
+  "sampled_frames": 8,
+  "raw_detection_count": 49,
+  "confirmed_event_keys": [
+    "no_mask",
+    "no_goggles",
+    "no_head_mask"
+  ],
+  "pending_events": [
+    {
+      "key": "no_lab_coat",
+      "label": "未穿实验服（未连续检出）",
+      "source": "visual_detection",
+      "status": "pending_temporal_confirmation",
+      "evidence_frames": [
+        3
+      ]
+    }
+  ],
+  "temporal_confirmation": {
+    "no_lab_coat": {
+      "minimum_consecutive_frames": 2,
+      "detected_frames": [
+        3
+      ],
+      "confirmed_frames": [],
+      "pending_frames": [
+        3
+      ],
+      "unit": "sampled_keyframe",
+      "person_tracking": "not_available",
+      "supporting_frames": []
+    }
+  },
+  "raw_counts": {
+    "drinking": 0,
+    "eating": 0,
+    "gloves": 3,
+    "goggles": 0,
+    "head_mask": 0,
+    "lab_coat": 1,
+    "mask": 0,
+    "no_gloves": 0,
+    "no_head_mask": 1,
+    "no_lab_coat": 1,
+    "no_mask": 1,
+    "no_goggles": 1
+  },
+  "summary": "视频关键帧分析保留 3 类风险提示。 未穿实验服仅在第 3 个采样关键帧出现提示，未满足连续2帧检出条件，列为待复核。",
+  "risk_panel_badges": 3,
+  "history_modified": false,
+  "backend_frontend_event_keys_match": true,
+  "report_prompt_excludes_unconfirmed_coat": true,
+  "offline_agent_answer": "就实验服来看，当前筛选范围尚未形成确认的风险提示。未穿实验服仅在第3个采样关键帧出现提示，未满足连续2个采样关键帧检出条件，列为待复核。",
+  "offline_agent_followup": "就实验服来看，当前筛选范围尚未形成确认的风险提示。未穿实验服仅在第3个采样关键帧出现提示，未满足连续2个采样关键帧检出条件，列为待复核。",
+  "python_regression_tests_passed": 54,
+  "history_sha256_after": "1b9ec451d93d769e84d5ff27be20171f48ebe713b7c3f30e858eaab20ad6b4f8"
+}

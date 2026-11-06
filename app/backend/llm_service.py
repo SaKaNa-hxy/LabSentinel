@@ -5,6 +5,11 @@ from typing import Any
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
+try:
+    from .risk_engine import apply_video_coat_confirmation
+except ImportError:
+    from risk_engine import apply_video_coat_confirmation
+
 DEFAULT_BASE_URL = "https://api.deepseek.com"
 DEFAULT_MODEL = "deepseek-chat"
 ROOT = Path(__file__).resolve().parents[2]
@@ -43,10 +48,14 @@ def llm_config() -> dict[str, Any]:
 
 
 def _build_prompt(detections: list[dict[str, Any]], risk: dict[str, Any]) -> str:
+    if any(isinstance(item.get("frame"), int) and item["frame"] > 0 for item in detections):
+        risk = apply_video_coat_confirmation(risk, detections, detections)
     facts = {
         "detections": detections,
         "counts": risk.get("counts", {}),
         "events": risk.get("events", []),
+        "pending_events": risk.get("pending_events", []),
+        "temporal_confirmation": risk.get("temporal_confirmation", {}),
         "rule_summary": risk.get("summary", ""),
         "rule_recommendations": risk.get("recommendations", []),
     }
@@ -112,6 +121,10 @@ def generate_safety_report(
         "你是实验室安全分析专家。你只能基于输入中的视觉检测结果和规则事件进行判断，"
         "不能编造未被检测到的目标。请用简体中文输出结构化安全报告，包含：总体判断、事件解释、"
         "可能原因、优先处置措施、后续整改建议。明确区分‘检测事实’与‘推测’，语言简洁、可执行。"
+        "source=behavior_inference 的未戴口罩事件是由进食或饮水规则推断，必须明确其来源，"
+        "不能当作模型直接检测到未戴口罩，也不能据此编造检测框、人数或具体人员。"
+        "视频未穿实验服须连续两个采样关键帧检出才纳入风险。pending_events 只表示待复核，"
+        "不能根据单帧检测框或 counts 将其写成视频已确认未穿；采样帧号不代表秒数或具体人员。"
     )
     user_prompt = _build_prompt(detections, risk)
     payload = {

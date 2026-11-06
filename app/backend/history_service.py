@@ -99,6 +99,8 @@ def save_history(
         "detections": analysis.get("detections", []),
         "warning": analysis.get("warning"),
         "image_size": analysis.get("image_size"),
+        "postprocessing": analysis.get("postprocessing"),
+        "video_context": analysis.get("video_context"),
     }
     with RECORDS_LOCK:
         records = _read_records()

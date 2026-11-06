@@ -1,0 +1,39 @@
+{
+  "verified_at_utc": "2026-10-28T15:46:31.479511+00:00",
+  "model_sha256": "0f0ad72e29548695b6ad8dea6d162b2a36fd8361f85e13acc264722312a6b69a",
+  "loaded": true,
+  "deployment_verified": true,
+  "smoke_test_image": "C:\\Users\\HXY\\Desktop\\Design\\datasets\\laboratory_safety\\images\\test\\C1200_MP4-0000_jpg.rf.d0efd20aae66371eb7bc31c03cda1114.jpg",
+  "detection_count": 19,
+  "warning": null,
+  "server_previously_running": false,
+  "diagnostic_image": {
+    "path": "C:\\Users\\HXY\\AppData\\Local\\Temp\\codex-clipboard-abeb0930-8b04-4fb6-9944-98914234ce69.png",
+    "confidence_threshold": 0.15,
+    "garment_detections": [
+      {
+        "class_id": 5,
+        "class_name": "lab_coat",
+        "confidence": 0.7213,
+        "bbox": [
+          88.83,
+          176.83,
+          368.45,
+          376.0
+        ]
+      },
+      {
+        "class_id": 9,
+        "class_name": "no_lab_coat",
+        "confidence": 0.477,
+        "bbox": [
+          104.66,
+          175.46,
+          369.0,
+          376.0
+        ]
+      }
+    ],
+    "note": "User-provided failure example, not an independent test-set metric. Conflicting garment predictions still occur."
+  }
+}

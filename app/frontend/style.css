@@ -121,6 +121,7 @@ input[type=range] { width: 100%; margin: 7px 0; accent-color: var(--accent); cur
 .event-badge { display: inline-flex; gap: 8px; align-items: center; border: 1px solid #e5b4a8; background: #fff2ec; color: #a83b25; padding: 7px 11px; font-size: 12px; font-weight: 600; border-radius: 5px; }
 .event-badge i { width: 6px; height: 6px; background: currentColor; border-radius: 50%; }
 .event-empty { color: var(--muted); font-size: 13px; }
+.event-pending { color: #6b675b; background: #f4f3ee; border: 1px solid #d9d5c8; border-radius: 6px; padding: 9px 12px; font-size: 13px; }
 .event-panel p { font-size: 13px; line-height: 1.85; color: #4e6679; margin: 13px 0 0; }
 .recommendations, .llm-report, .agent-panel, .detection-panel { padding: 20px 22px; border-top: 1px solid var(--line); }
 .subhead { font-size: 13px; font-weight: 600; margin-bottom: 13px; }
@@ -216,6 +217,7 @@ input[type=range] { width: 100%; margin: 7px 0; accent-color: var(--accent); cur
 .history-risk { font-size: 12px; line-height: 1.8; margin: 0; }
 .history-risk.warning { color: #a34531; }
 .history-risk.safe { color: #177360; }
+.history-risk.pending { color: #6b675b; }
 .history-empty { grid-column: 1 / -1; padding: 36px 20px; }
 .signal-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; }
 .signal-card { position: relative; border: 1px solid var(--line); border-radius: 8px; background: white; padding: 17px; min-height: 120px; }

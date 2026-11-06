@@ -1,0 +1,111 @@
+{
+  "evaluated_at_utc": "2026-10-28T03:55:50+00:00",
+  "model_path": "C:\\Users\\HXY\\Desktop\\Design\\runs\\laboratory_safety_corrected\\weights\\best.pt",
+  "model_sha256": "64ce2033b6ba415b2d0fa6464a142eda349dd26744a7af4bb29030597ab8402e",
+  "checkpoint_training_data": "C:\\Users\\HXY\\Desktop\\Design\\datasets\\laboratory_safety\\data.yaml",
+  "dataset_yaml": "C:\\Users\\HXY\\Desktop\\Design\\datasets\\laboratory_safety\\data.yaml",
+  "dataset_yaml_sha256": "14fca4abd2bfabacba15f3156efa207ac40f7fe83f0519cc51eef76040a16ba7",
+  "split": "test",
+  "confidence_threshold": 0.001,
+  "imgsz": 640,
+  "device": "0",
+  "ultralytics_version": "8.3.68",
+  "overall": {
+    "precision": 0.6491205115558755,
+    "recall": 0.7954744188325215,
+    "f1": 0.714883806969127,
+    "map50": 0.7222058375298724,
+    "map50_95": 0.5022563366370854
+  },
+  "per_class": {
+    "Drinking": {
+      "precision": 0.40418013456683066,
+      "recall": 0.444,
+      "map50": 0.34205363560716695,
+      "map50_95": 0.09272558084457297
+    },
+    "Eating": {
+      "precision": 0.7554721601319042,
+      "recall": 0.65625,
+      "map50": 0.6802824962499736,
+      "map50_95": 0.17416858121695306
+    },
+    "Gloves": {
+      "precision": 0.7164145575359614,
+      "recall": 0.8860294117647058,
+      "map50": 0.8449486055017459,
+      "map50_95": 0.7387948347195983
+    },
+    "Goggles": {
+      "precision": 0.7763618814847659,
+      "recall": 0.9087136929460581,
+      "map50": 0.8729724862461333,
+      "map50_95": 0.571299317604902
+    },
+    "Head Mask": {
+      "precision": 0.641605428371205,
+      "recall": 0.9755301794453507,
+      "map50": 0.8376029815909775,
+      "map50_95": 0.7846467720376187
+    },
+    "Lab Coat": {
+      "precision": 0.783936373970144,
+      "recall": 0.8904382470119522,
+      "map50": 0.8951480876188106,
+      "map50_95": 0.8157388536330148
+    },
+    "Mask": {
+      "precision": 0.5741162252856575,
+      "recall": 0.8832117543104806,
+      "map50": 0.7241089812413558,
+      "map50_95": 0.5979149176566654
+    },
+    "No Gloves": {
+      "precision": 0.7436996294353936,
+      "recall": 0.8014477766287487,
+      "map50": 0.7887759361166216,
+      "map50_95": 0.6215567285584191
+    },
+    "No Head Mask": {
+      "precision": 0.6750383407188834,
+      "recall": 0.8309161996147638,
+      "map50": 0.7840033803371063,
+      "map50_95": 0.5801104117952774
+    },
+    "No Lab coat": {
+      "precision": 0.6020899716710127,
+      "recall": 0.8828996282527881,
+      "map50": 0.7602253969297753,
+      "map50_95": 0.6626759570192843
+    },
+    "No Mask": {
+      "precision": 0.6122457780815249,
+      "recall": 0.8285638283231002,
+      "map50": 0.6856840710773988,
+      "map50_95": 0.24345077190128855
+    },
+    "No goggles": {
+      "precision": 0.5042856574172216,
+      "recall": 0.5576923076923077,
+      "map50": 0.45066399184140454,
+      "map50_95": 0.14399331265742957
+    }
+  },
+  "note": "Detection metrics only. These do not measure event-level alerts or person association.",
+  "source_overlap_basis": "filename groups only; actual capture sources are unverified",
+  "dataset_audit_sha256": "586ba3ec5df3e93439d23aa11131a16ab95dad0a11f41b4c12f943307755788c",
+  "source_overlap": {
+    "train_val": 0,
+    "train_test": 0,
+    "val_test": 0
+  },
+  "image_list_sha256": {
+    "train": "575786f0ced3a1ee6521ed442a98cbd0724fcaed542097949b5efd172be5f71d",
+    "val": "23405742d22a9e65ee032dfae9bd5a45822d79ecf86f084aa9c630f17a88586f",
+    "test": "6e69d3649da05ff5051d9641d66f99d54935b6e7e3fae0b16faaa40a075b3753"
+  },
+  "training_manifest_matches": true,
+  "training_manifest_sha256": "4000cb6cb39ee64c101afde7c9e27906b33364ec1020a230846ce53ada5d6630",
+  "annotation_manifest_sha256": "5e0acd0b6cf4194c0085743db135874f15de301325fdbc5ebd1c4eaf6661a9f7",
+  "annotation_files_match_manifest": true
+}

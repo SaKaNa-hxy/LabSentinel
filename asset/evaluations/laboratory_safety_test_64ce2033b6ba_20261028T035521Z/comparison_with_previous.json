@@ -1,0 +1,35 @@
+{
+  "old_report": "C:\\Users\\HXY\\Desktop\\Design\\asset\\evaluations\\laboratory_safety_test_ca28182b38d5_20261027T091446Z\\metrics_with_provenance.json",
+  "new_report": "C:\\Users\\HXY\\Desktop\\Design\\asset\\evaluations\\laboratory_safety_test_64ce2033b6ba_20261028T035521Z\\metrics_with_provenance.json",
+  "test_images": 735,
+  "same_split_lists": true,
+  "same_test_labels_as_before_coat_audit": true,
+  "note": "Descriptive single-run comparison; training annotations and OpenCV version differ.",
+  "overall": {
+    "precision": {
+      "old": 0.6676405317827903,
+      "new": 0.6491205115558755,
+      "delta_percentage_points": -1.852002022691479
+    },
+    "recall": {
+      "old": 0.7952652192815505,
+      "new": 0.7954744188325215,
+      "delta_percentage_points": 0.02091995509709843
+    },
+    "f1": {
+      "old": 0.7258858522132363,
+      "new": 0.714883806969127,
+      "delta_percentage_points": -1.1002045244109304
+    },
+    "map50": {
+      "old": 0.7464942065386815,
+      "new": 0.7222058375298724,
+      "delta_percentage_points": -2.428836900880904
+    },
+    "map50_95": {
+      "old": 0.5243163069756661,
+      "new": 0.5022563366370854,
+      "delta_percentage_points": -2.205997033858076
+    }
+  }
+}

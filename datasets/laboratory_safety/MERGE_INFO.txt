@@ -1,0 +1,5 @@
+数据集模式: 完全替换 laboratory_safety
+来源: Safe Lab AI.v4i.yolov11
+类别: 0=Drinking, 1=Eating, 2=Gloves, 3=Goggles, 4=Head Mask, 5=Lab Coat, 6=Mask, 7=No Gloves, 8=No Head Mask, 9=No Lab coat, 10=No Mask, 11=No goggles
+标签处理: 分割多边形已转换为检测边界框
+旧类别: fire, smoke 已移除

@@ -1,0 +1,42 @@
+{
+  "verified_at_utc": "2026-10-28T03:57:25.267517+00:00",
+  "model": {
+    "loaded": true,
+    "path": "models\\laboratory_safety\\weights\\best.pt",
+    "custom_model_ready": true,
+    "deployment_verified": true,
+    "model_sha256": "64ce2033b6ba415b2d0fa6464a142eda349dd26744a7af4bb29030597ab8402e",
+    "evaluation": {
+      "precision": 0.6491205115558755,
+      "recall": 0.7954744188325215,
+      "f1": 0.714883806969127,
+      "map50": 0.7222058375298724,
+      "map50_95": 0.5022563366370854
+    },
+    "error": null,
+    "classes": [
+      "drinking",
+      "eating",
+      "gloves",
+      "goggles",
+      "head_mask",
+      "lab_coat",
+      "mask",
+      "no_gloves",
+      "no_head_mask",
+      "no_lab_coat",
+      "no_mask",
+      "no_goggles"
+    ],
+    "dataset": "7217 images / 12 classes / detection labels",
+    "note": "当前数据集识别进食、饮水和 PPE 状态；风险判断直接基于行为类和 No 类检测结果。"
+  },
+  "smoke_test_image": "C:\\Users\\HXY\\Desktop\\Design\\datasets\\laboratory_safety\\images\\test\\C1200_MP4-0000_jpg.rf.d0efd20aae66371eb7bc31c03cda1114.jpg",
+  "detection_count": 21,
+  "warning": null,
+  "image_size": {
+    "width": 1920,
+    "height": 1080
+  },
+  "note": "Application inference module loaded deployed checkpoint and completed one prediction. No persistent server was running before deployment."
+}

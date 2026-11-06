@@ -169,6 +169,48 @@ class AgentContextTests(unittest.TestCase):
         self.ask("那第三帧呢？")
         self.assertEqual(self.analysis, original)
 
+    def test_video_coat_focus_does_not_promote_an_isolated_frame_to_risk(self):
+        detections = [{"class_name": "lab_coat", "frame": 1}, {"class_name": "no_lab_coat", "frame": 2}, {"class_name": "lab_coat", "frame": 3}]
+        analysis = {"detections": detections, "risk": analyze_risk(detections), "frame_count": 3, "source_type": "video"}
+        self.ask("整个视频实验服有什么问题？", analysis=analysis, analysis_id="coat-video")
+        payload = self.payload()
+        self.assertEqual(payload["risk"]["events"], [])
+        self.assertEqual(payload["risk"]["pending_events"][0]["evidence_frames"], [2])
+        self.ask("第二帧这个判断靠谱吗？")
+        self.assertEqual(self.payload()["events"], [])
+        self.assertEqual(self.payload()["pending_events"][0]["evidence_frames"], [2])
+        self.ask("那第三帧呢？")
+        self.assertEqual(self.payload()["risk"]["events"], [])
+        self.assertEqual(self.payload()["risk"].get("pending_events", []), [])
+
+    def test_history_can_use_saved_neighbor_evidence_without_exposing_other_frames(self):
+        detection = {"class_name": "no_lab_coat", "confidence": 0.8}
+        self.history.return_value = {"frame_index": 3, "source": "video", "detections": [detection],
+            "risk": analyze_risk([detection]), "video_context": {"coat_evidence": [{**detection, "frame": 3}, {**detection, "frame": 4}]}}
+        self.ask("第三帧实验服有什么问题？", record_id="coat-history")
+        self.assertEqual(self.payload()["risk"]["events"][0]["key"], "no_lab_coat")
+        self.assertEqual(self.payload()["risk"]["temporal_confirmation"]["no_lab_coat"]["supporting_frames"], [3, 4])
+        self.assertNotIn("temporal_evidence", self.payload())
+        reply = self.ask("那第四帧呢？")
+        self.assertEqual(reply["tool"], "clarify_context")
+
+    def test_mask_focus_preserves_behavior_inference_from_same_frame_only(self):
+        detections = [{"class_name": "drinking", "confidence": 0.9, "frame": 1},
+                      {"class_name": "gloves", "confidence": 0.8, "frame": 2}]
+        analysis = {"detections": detections, "risk": analyze_risk(detections), "frame_count": 2}
+        self.ask("第一帧口罩有什么问题？", analysis=analysis, analysis_id="behavior-video")
+        payload = self.payload()
+        self.assertEqual(payload["detections"], [])
+        self.assertEqual(payload["risk"]["events"][0]["key"], "no_mask")
+        self.assertEqual(payload["risk"]["events"][0]["source"], "behavior_inference")
+        self.assertEqual(payload["rule_evidence"], detections[:1])
+        self.assertEqual(payload["evidence_summary"]["box_counts"], {})
+        self.ask("这个判断靠谱吗？")
+        self.assertEqual(self.payload()["rule_evidence"], detections[:1])
+        self.ask("那第二帧呢？")
+        self.assertEqual(self.payload()["risk"]["events"], [])
+        self.assertEqual(self.payload()["rule_evidence"], [])
+
     def test_focus_survives_message_window_and_sessions_are_isolated(self):
         self.begin()
         for _ in range(8):

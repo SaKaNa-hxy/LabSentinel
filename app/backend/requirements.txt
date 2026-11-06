@@ -5,3 +5,4 @@ ultralytics==8.3.68
 Pillow==11.1.0
 matplotlib==3.9.4
 numpy==2.0.2
+opencv-python==4.11.0.86

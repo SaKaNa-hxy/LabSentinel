@@ -1,0 +1,8 @@
+{
+  "loader": "ultralytics.data.dataset.YOLODataset",
+  "images": 8994,
+  "training_boxes": 61090,
+  "original_and_crop_samples_loaded": true,
+  "imgsz": 640,
+  "training_started": false
+}

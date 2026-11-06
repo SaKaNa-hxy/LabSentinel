@@ -2,6 +2,7 @@ import base64
 import hashlib
 import io
 import json
+import math
 from pathlib import Path
 from typing import Any, Optional
 
@@ -22,7 +23,7 @@ DATASET_CLASS_NAMES = [
     "Drinking",
     "Eating",
     "Gloves",
-    "Googles",
+    "Goggles",
     "Head Mask",
     "Lab Coat",
     "Mask",
@@ -30,13 +31,13 @@ DATASET_CLASS_NAMES = [
     "No Head Mask",
     "No Lab coat",
     "No Mask",
-    "No googles",
+    "No goggles",
 ]
 CLASS_NAME_MAP = {
     "Drinking": "drinking",
     "Eating": "eating",
     "Gloves": "gloves",
-    "Googles": "goggles",
+    "Goggles": "goggles",
     "Head Mask": "head_mask",
     "Lab Coat": "lab_coat",
     "Mask": "mask",
@@ -44,9 +45,10 @@ CLASS_NAME_MAP = {
     "No Head Mask": "no_head_mask",
     "No Lab coat": "no_lab_coat",
     "No Mask": "no_mask",
-    "No googles": "no_goggles",
+    "No goggles": "no_goggles",
 }
 CLASS_NAMES = list(CLASS_NAME_MAP.values())
+COAT_CONFLICT_IOU = 0.70
 
 _model = None
 _model_path: Optional[Path] = None
@@ -114,7 +116,7 @@ def model_info() -> dict[str, Any]:
         "error": _model_error,
         "classes": CLASS_NAMES,
         "dataset": "7217 images / 12 classes / detection labels",
-        "note": "当前数据集识别进食、饮水和 PPE 状态；风险判断直接基于行为类和 No 类检测结果。",
+        "note": "当前数据集识别进食、饮水和 PPE 状态；进食或饮水额外触发未戴口罩的行为推断提示，不增加模型检测框。",
     }
 
 
@@ -122,6 +124,41 @@ def _encode_image(image: Image.Image) -> str:
     output = io.BytesIO()
     image.save(output, format="JPEG", quality=90)
     return "data:image/jpeg;base64," + base64.b64encode(output.getvalue()).decode("ascii")
+
+
+def resolve_coat_conflicts(detections: list[dict[str, Any]]) -> tuple[list[int], list[dict[str, Any]]]:
+    """Prefer a coat over a highly overlapping NoCoat in the same frame only."""
+    def box_for(item):
+        box = item.get("bbox")
+        if not isinstance(box, (list, tuple)) or len(box) != 4:
+            return None
+        try:
+            box = [float(value) for value in box]
+        except (ValueError, TypeError, OverflowError):
+            return None
+        return box if all(math.isfinite(value) for value in box) and box[2] > box[0] and box[3] > box[1] else None
+
+    coats = [(item, box_for(item)) for item in detections if item.get("class_name") == "lab_coat"]
+    kept, suppressed = [], []
+    for index, item in enumerate(detections):
+        negative_box = box_for(item) if item.get("class_name") == "no_lab_coat" else None
+        best_iou, match = 0.0, None
+        if negative_box:
+            for coat, positive_box in coats:
+                if not positive_box or item.get("frame", item.get("frame_index")) != coat.get("frame", coat.get("frame_index")):
+                    continue
+                a, b = negative_box, positive_box
+                intersection = max(0, min(a[2], b[2])-max(a[0], b[0])) * max(0, min(a[3], b[3])-max(a[1], b[1]))
+                union = (a[2]-a[0])*(a[3]-a[1]) + (b[2]-b[0])*(b[3]-b[1]) - intersection
+                iou = intersection/union
+                if iou > best_iou:
+                    best_iou, match = iou, coat
+        if best_iou >= COAT_CONFLICT_IOU:
+            suppressed.append({"detection": item, "matched_lab_coat": match,
+                               "overlap_iou": round(best_iou, 4), "rule": "lab_coat_priority"})
+        else:
+            kept.append(index)
+    return kept, suppressed
 
 
 def predict(image_bytes: bytes, confidence: float = 0.15) -> dict[str, Any]:
@@ -134,6 +171,8 @@ def predict(image_bytes: bytes, confidence: float = 0.15) -> dict[str, Any]:
     detections: list[dict[str, Any]] = []
     warning = None
     annotated = image
+    postprocessing = {"rule": "lab_coat_priority", "scope": "same_frame_overlap",
+                      "iou_threshold": COAT_CONFLICT_IOU, "raw_detection_count": 0, "suppressed_detections": []}
     if _model is None:
         warning = _model_error or "模型未加载"
     else:
@@ -149,6 +188,13 @@ def predict(image_bytes: bytes, confidence: float = 0.15) -> dict[str, Any]:
                 model_name = str(names.get(class_id, class_id))
                 class_name = CLASS_NAME_MAP.get(model_name, model_name.lower().replace(" ", "_"))
                 detections.append({"class_id": class_id, "class_name": class_name, "confidence": round(score, 4), "bbox": xyxy})
+        postprocessing["raw_detection_count"] = len(detections)
+        kept, suppressed = resolve_coat_conflicts(detections)
+        postprocessing["suppressed_detections"] = suppressed
+        if suppressed:
+            detections = [detections[index] for index in kept]
+            # Plot the same boxes used by the detection list and risk rules.
+            result.boxes = boxes[kept]
         try:
             annotated = Image.fromarray(result.plot()[:, :, ::-1])
         except Exception:
@@ -163,5 +209,6 @@ def predict(image_bytes: bytes, confidence: float = 0.15) -> dict[str, Any]:
         "risk": risk,
         "model": model_info(),
         "warning": warning,
+        "postprocessing": postprocessing,
         "image_size": {"width": image.width, "height": image.height},
     }

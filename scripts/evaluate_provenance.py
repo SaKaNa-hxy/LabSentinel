@@ -19,7 +19,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_MODEL = ROOT / "models" / "laboratory_safety" / "weights" / "best.pt"
 DEFAULT_DATA = ROOT / "datasets" / "laboratory_safety" / "data.yaml"
 OUTPUT = ROOT / "asset" / "evaluations"
-EXPECTED_NAMES = ["Drinking", "Eating", "Gloves", "Googles", "Head Mask", "Lab Coat", "Mask", "No Gloves", "No Head Mask", "No Lab coat", "No Mask", "No googles"]
+EXPECTED_NAMES = ["Drinking", "Eating", "Gloves", "Goggles", "Head Mask", "Lab Coat", "Mask", "No Gloves", "No Head Mask", "No Lab coat", "No Mask", "No goggles"]
 
 
 def sha256(path: Path) -> str:
@@ -115,8 +115,7 @@ def evaluate(model_path: Path, data_path: Path, split: str, conf: float, device:
         report["dataset_audit_sha256"] = sha256(audit)
         report["source_overlap"] = json.loads(audit.read_text(encoding="utf-8"))["grouped"]["overlapping_sources"]
     else:
-        grouped_audit = ROOT / "datasets" / "laboratory_safety_grouped" / "audit.json"
-        report["source_overlap"] = json.loads(grouped_audit.read_text(encoding="utf-8"))["original"]["overlapping_sources"] if grouped_audit.exists() else "not_verified_for_this_yaml"
+        report["source_overlap"] = "not_verified_for_this_yaml"
     report["image_list_sha256"] = {
         name: sha256(data_path.parent / f"{name}.txt")
         for name in ("train", "val", "test") if (data_path.parent / f"{name}.txt").exists()
@@ -128,6 +127,12 @@ def evaluate(model_path: Path, data_path: Path, split: str, conf: float, device:
         report["training_manifest_sha256"] = sha256(training_manifest)
     else:
         report["training_manifest_matches"] = False
+    annotation_manifest = data_path.parent / "label_manifest.json"
+    if annotation_manifest.exists():
+        labels = json.loads(annotation_manifest.read_text(encoding="utf-8"))
+        report["annotation_manifest_sha256"] = sha256(annotation_manifest)
+        report["annotation_files_match_manifest"] = all((ROOT/p).is_file() and sha256(ROOT/p)==digest for p,digest in labels.items())
+        report["training_manifest_matches"] = report["training_manifest_matches"] and report["annotation_files_match_manifest"]
     destination = save_dir / "metrics_with_provenance.json"
     destination.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     plot_metrics(report, save_dir)
