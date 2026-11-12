@@ -9,6 +9,7 @@ __pycache__/
 *.log
 runs/
 storage/history/
+storage/chats/
 # Keep evaluation reports and tables; generated plots and example images stay local.
 asset/evaluations/**/*.png
 asset/evaluations/**/*.jpg

@@ -241,8 +241,12 @@ class AgentContextTests(unittest.TestCase):
         self.assertNotIn("未佩戴手套", reply["answer"])
 
     def test_api_forwards_analysis_identity_and_frame_metadata(self):
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+        from app.backend import chat_store
         from app.backend.main import ChatRequest, chat
-        reply = chat(ChatRequest(message="第三帧手套呢？", session_id=self.session, analysis=self.analysis, analysis_id="api-video"))
+        with TemporaryDirectory() as temp, patch.object(chat_store, "CHAT_DB", Path(temp) / "test.sqlite3"):
+            reply = chat(ChatRequest(message="第三帧手套呢？", analysis=self.analysis, analysis_id="api-video"))
         self.assertEqual(reply["discussion_focus"]["frames"], [3])
         self.assertEqual(self.payload()["discussion_focus"]["frame_count"], 5)
         self.assertEqual(self.payload()["detections"][0]["frame"], 3)

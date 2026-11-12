@@ -47,6 +47,48 @@ class CoatConflictTests(unittest.TestCase):
                 items = [detection("lab_coat", [0, 0, 100, 100]), detection("no_lab_coat", box)]
                 self.assertEqual(inference.resolve_coat_conflicts(items), ([0, 1], []))
 
+    def test_verifier_requires_overlap_clear_preference_and_requested_confidence(self):
+        items = [detection("no_lab_coat", [0, 0, 100, 100]),
+                 detection("no_lab_coat", [200, 0, 300, 100])]
+        coat = detection("lab_coat", [0, 0, 100, 100], 0.82)
+        competing = detection("no_lab_coat", [0, 0, 100, 100], 0.76)
+        self.assertEqual(inference._coat_corrections(items, [coat, competing], 0.15), [])
+        self.assertEqual(inference._coat_corrections(items, [coat], 0.85), [])
+        self.assertEqual(inference._coat_corrections(items, [coat], 0.15), [(0, coat, 1.0)])
+
+    def test_verified_coat_changes_risk_and_rendered_class_but_keeps_other_boxes(self):
+        import torch
+        from ultralytics.engine.results import Results
+
+        names = dict(enumerate(inference.DATASET_CLASS_NAMES))
+        canvas = np.zeros((120, 240, 3), dtype=np.uint8)
+        primary = Results(canvas, "primary", names, boxes=torch.tensor([
+            [10, 15, 105, 115, 0.89, 9],
+            [120, 15, 220, 115, 0.72, 9],
+            [25, 1, 70, 14, 0.88, 10],
+        ]))
+        verifier = Results(canvas, "verifier", names, boxes=torch.tensor([
+            [12, 15, 106, 115, 0.9, 5],
+        ]))
+
+        class Model:
+            def __init__(self, result):
+                self.result = result
+
+            def predict(self, **kwargs):
+                return [self.result]
+
+        image = io.BytesIO()
+        Image.new("RGB", (240, 120)).save(image, format="PNG")
+        with patch.object(inference, "_model", Model(primary)), patch.object(inference, "_custom_model_compatible", True):
+            with patch.object(inference, "_load_coat_verifier", return_value=Model(verifier)):
+                output = inference.predict(image.getvalue())
+
+        self.assertEqual([item["class_name"] for item in output["detections"]], ["lab_coat", "no_lab_coat", "no_mask"])
+        self.assertEqual(primary.boxes.cls.tolist(), [5, 9, 10])
+        self.assertEqual(output["risk"]["counts"]["no_lab_coat"], 1)
+        self.assertEqual(output["postprocessing"]["coat_corrections"][0]["original"]["class_name"], "no_lab_coat")
+
     def test_detection_list_plot_and_risk_all_use_resolved_boxes(self):
         class Boxes:
             def __init__(self, rows):

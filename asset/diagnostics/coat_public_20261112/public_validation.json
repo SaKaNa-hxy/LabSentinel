@@ -1,0 +1,709 @@
+{
+  "rule": "Highest average per-garment recall at IoU >= 0.50, then fewest matched wrong or contradictory labels, then earliest epoch",
+  "imgsz": 640,
+  "confidence": 0.15,
+  "selected": "epoch_1",
+  "results": {
+    "baseline": {
+      "checkpoint": "models/laboratory_safety/weights/best.pt",
+      "sha256": "0f0ad72e29548695b6ad8dea6d162b2a36fd8361f85e13acc264722312a6b69a",
+      "counts": {
+        "lab": {
+          "no_box": 1,
+          "correct": 2
+        },
+        "shirt": {
+          "wrong": 2,
+          "correct": 2
+        },
+        "outer": {
+          "correct": 3,
+          "wrong": 2,
+          "no_box": 1
+        }
+      },
+      "balanced_accuracy": 0.5555555555555555,
+      "wrong_or_both": 4,
+      "targets": [
+        {
+          "image": "lab-43168083",
+          "target": 1,
+          "truth": 5,
+          "state": "no_box"
+        },
+        {
+          "image": "lab-37142574",
+          "target": 1,
+          "truth": 5,
+          "state": "correct"
+        },
+        {
+          "image": "lab-22487838",
+          "target": 1,
+          "truth": 5,
+          "state": "correct"
+        },
+        {
+          "image": "shirt-56763063",
+          "target": 1,
+          "truth": 9,
+          "state": "wrong"
+        },
+        {
+          "image": "shirt-90763424",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "shirt-89031394",
+          "target": 1,
+          "truth": 9,
+          "state": "wrong"
+        },
+        {
+          "image": "shirt-74192910",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-94565106",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-115517596",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-115517596",
+          "target": 2,
+          "truth": 9,
+          "state": "wrong"
+        },
+        {
+          "image": "outer-122748746",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-127538063",
+          "target": 1,
+          "truth": 9,
+          "state": "no_box"
+        },
+        {
+          "image": "outer-30497683",
+          "target": 1,
+          "truth": 9,
+          "state": "wrong"
+        }
+      ]
+    },
+    "epoch_1": {
+      "checkpoint": "runs/laboratory_safety_public_coat_20261112/weights/epoch0.pt",
+      "sha256": "6927734cffa28149e8ead164c13a01e95ac25e113f8b5317dde8e6209407bbfc",
+      "counts": {
+        "lab": {
+          "wrong": 2,
+          "correct": 1
+        },
+        "shirt": {
+          "wrong": 1,
+          "correct": 3
+        },
+        "outer": {
+          "correct": 5,
+          "wrong": 1
+        }
+      },
+      "balanced_accuracy": 0.6388888888888888,
+      "wrong_or_both": 4,
+      "targets": [
+        {
+          "image": "lab-43168083",
+          "target": 1,
+          "truth": 5,
+          "state": "wrong"
+        },
+        {
+          "image": "lab-37142574",
+          "target": 1,
+          "truth": 5,
+          "state": "wrong"
+        },
+        {
+          "image": "lab-22487838",
+          "target": 1,
+          "truth": 5,
+          "state": "correct"
+        },
+        {
+          "image": "shirt-56763063",
+          "target": 1,
+          "truth": 9,
+          "state": "wrong"
+        },
+        {
+          "image": "shirt-90763424",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "shirt-89031394",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "shirt-74192910",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-94565106",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-115517596",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-115517596",
+          "target": 2,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-122748746",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-127538063",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-30497683",
+          "target": 1,
+          "truth": 9,
+          "state": "wrong"
+        }
+      ]
+    },
+    "epoch_2": {
+      "checkpoint": "runs/laboratory_safety_public_coat_20261112/weights/epoch1.pt",
+      "sha256": "3a274fb27081039e2b70b20fab598aa34bd81598290c5fc329111e0061ca9d03",
+      "counts": {
+        "lab": {
+          "wrong": 2,
+          "correct": 1
+        },
+        "shirt": {
+          "wrong": 1,
+          "correct": 3
+        },
+        "outer": {
+          "correct": 4,
+          "wrong": 2
+        }
+      },
+      "balanced_accuracy": 0.5833333333333334,
+      "wrong_or_both": 5,
+      "targets": [
+        {
+          "image": "lab-43168083",
+          "target": 1,
+          "truth": 5,
+          "state": "wrong"
+        },
+        {
+          "image": "lab-37142574",
+          "target": 1,
+          "truth": 5,
+          "state": "wrong"
+        },
+        {
+          "image": "lab-22487838",
+          "target": 1,
+          "truth": 5,
+          "state": "correct"
+        },
+        {
+          "image": "shirt-56763063",
+          "target": 1,
+          "truth": 9,
+          "state": "wrong"
+        },
+        {
+          "image": "shirt-90763424",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "shirt-89031394",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "shirt-74192910",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-94565106",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-115517596",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-115517596",
+          "target": 2,
+          "truth": 9,
+          "state": "wrong"
+        },
+        {
+          "image": "outer-122748746",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-127538063",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-30497683",
+          "target": 1,
+          "truth": 9,
+          "state": "wrong"
+        }
+      ]
+    },
+    "epoch_3": {
+      "checkpoint": "runs/laboratory_safety_public_coat_20261112/weights/epoch2.pt",
+      "sha256": "0eb8483bbcb43d41cdc500f4df75cf544def2b84865beb7e61cb26c1422c6497",
+      "counts": {
+        "lab": {
+          "correct": 2,
+          "wrong": 1
+        },
+        "shirt": {
+          "wrong": 1,
+          "correct": 3
+        },
+        "outer": {
+          "correct": 3,
+          "wrong": 3
+        }
+      },
+      "balanced_accuracy": 0.6388888888888888,
+      "wrong_or_both": 5,
+      "targets": [
+        {
+          "image": "lab-43168083",
+          "target": 1,
+          "truth": 5,
+          "state": "correct"
+        },
+        {
+          "image": "lab-37142574",
+          "target": 1,
+          "truth": 5,
+          "state": "wrong"
+        },
+        {
+          "image": "lab-22487838",
+          "target": 1,
+          "truth": 5,
+          "state": "correct"
+        },
+        {
+          "image": "shirt-56763063",
+          "target": 1,
+          "truth": 9,
+          "state": "wrong"
+        },
+        {
+          "image": "shirt-90763424",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "shirt-89031394",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "shirt-74192910",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-94565106",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-115517596",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-115517596",
+          "target": 2,
+          "truth": 9,
+          "state": "wrong"
+        },
+        {
+          "image": "outer-122748746",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-127538063",
+          "target": 1,
+          "truth": 9,
+          "state": "wrong"
+        },
+        {
+          "image": "outer-30497683",
+          "target": 1,
+          "truth": 9,
+          "state": "wrong"
+        }
+      ]
+    },
+    "epoch_4": {
+      "checkpoint": "runs/laboratory_safety_public_coat_20261112/weights/epoch3.pt",
+      "sha256": "59cd781202d25201a1bdc5a4e91b2dec379818b3c3ca48ce24f30c581d5d5a70",
+      "counts": {
+        "lab": {
+          "wrong": 2,
+          "correct": 1
+        },
+        "shirt": {
+          "wrong": 1,
+          "correct": 3
+        },
+        "outer": {
+          "correct": 4,
+          "wrong": 2
+        }
+      },
+      "balanced_accuracy": 0.5833333333333334,
+      "wrong_or_both": 5,
+      "targets": [
+        {
+          "image": "lab-43168083",
+          "target": 1,
+          "truth": 5,
+          "state": "wrong"
+        },
+        {
+          "image": "lab-37142574",
+          "target": 1,
+          "truth": 5,
+          "state": "wrong"
+        },
+        {
+          "image": "lab-22487838",
+          "target": 1,
+          "truth": 5,
+          "state": "correct"
+        },
+        {
+          "image": "shirt-56763063",
+          "target": 1,
+          "truth": 9,
+          "state": "wrong"
+        },
+        {
+          "image": "shirt-90763424",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "shirt-89031394",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "shirt-74192910",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-94565106",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-115517596",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-115517596",
+          "target": 2,
+          "truth": 9,
+          "state": "wrong"
+        },
+        {
+          "image": "outer-122748746",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-127538063",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-30497683",
+          "target": 1,
+          "truth": 9,
+          "state": "wrong"
+        }
+      ]
+    },
+    "epoch_5": {
+      "checkpoint": "runs/laboratory_safety_public_coat_20261112/weights/epoch4.pt",
+      "sha256": "d62fe1fe90c7c6753686ee50811cd483406446786c1fcf455dd78e8fb36526ed",
+      "counts": {
+        "lab": {
+          "wrong": 2,
+          "correct": 1
+        },
+        "shirt": {
+          "wrong": 1,
+          "correct": 3
+        },
+        "outer": {
+          "correct": 4,
+          "wrong": 2
+        }
+      },
+      "balanced_accuracy": 0.5833333333333334,
+      "wrong_or_both": 5,
+      "targets": [
+        {
+          "image": "lab-43168083",
+          "target": 1,
+          "truth": 5,
+          "state": "wrong"
+        },
+        {
+          "image": "lab-37142574",
+          "target": 1,
+          "truth": 5,
+          "state": "wrong"
+        },
+        {
+          "image": "lab-22487838",
+          "target": 1,
+          "truth": 5,
+          "state": "correct"
+        },
+        {
+          "image": "shirt-56763063",
+          "target": 1,
+          "truth": 9,
+          "state": "wrong"
+        },
+        {
+          "image": "shirt-90763424",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "shirt-89031394",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "shirt-74192910",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-94565106",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-115517596",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-115517596",
+          "target": 2,
+          "truth": 9,
+          "state": "wrong"
+        },
+        {
+          "image": "outer-122748746",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-127538063",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-30497683",
+          "target": 1,
+          "truth": 9,
+          "state": "wrong"
+        }
+      ]
+    },
+    "epoch_6": {
+      "checkpoint": "runs/laboratory_safety_public_coat_20261112/weights/epoch5.pt",
+      "sha256": "a7fc49a41f0be095c947584944e32d4252cb2a3ae873f4c991682afb13735994",
+      "counts": {
+        "lab": {
+          "wrong": 2,
+          "correct": 1
+        },
+        "shirt": {
+          "wrong": 1,
+          "correct": 3
+        },
+        "outer": {
+          "correct": 4,
+          "wrong": 2
+        }
+      },
+      "balanced_accuracy": 0.5833333333333334,
+      "wrong_or_both": 5,
+      "targets": [
+        {
+          "image": "lab-43168083",
+          "target": 1,
+          "truth": 5,
+          "state": "wrong"
+        },
+        {
+          "image": "lab-37142574",
+          "target": 1,
+          "truth": 5,
+          "state": "wrong"
+        },
+        {
+          "image": "lab-22487838",
+          "target": 1,
+          "truth": 5,
+          "state": "correct"
+        },
+        {
+          "image": "shirt-56763063",
+          "target": 1,
+          "truth": 9,
+          "state": "wrong"
+        },
+        {
+          "image": "shirt-90763424",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "shirt-89031394",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "shirt-74192910",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-94565106",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-115517596",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-115517596",
+          "target": 2,
+          "truth": 9,
+          "state": "wrong"
+        },
+        {
+          "image": "outer-122748746",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-127538063",
+          "target": 1,
+          "truth": 9,
+          "state": "correct"
+        },
+        {
+          "image": "outer-30497683",
+          "target": 1,
+          "truth": 9,
+          "state": "wrong"
+        }
+      ]
+    }
+  }
+}

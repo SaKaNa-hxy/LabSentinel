@@ -63,6 +63,16 @@ def get_history(record_id: str) -> Optional[Dict[str, Any]]:
         )
 
 
+def history_image_path(record_id: str) -> Path:
+    if not re.fullmatch(r"[0-9a-f]{32}", record_id):
+        raise FileNotFoundError("历史图片不存在")
+    root = HISTORY_DIR.resolve()
+    path = root / record_id / "annotated.jpg"
+    if path.resolve() != path or not path.is_file():
+        raise FileNotFoundError("历史图片不存在")
+    return path
+
+
 def save_history(
     source_type: str,
     image_bytes: bytes,

@@ -1,0 +1,116 @@
+{
+  "selection_independent": true,
+  "baseline": {
+    "checkpoint": "models/laboratory_safety/weights/best.pt",
+    "sha256": "0f0ad72e29548695b6ad8dea6d162b2a36fd8361f85e13acc264722312a6b69a",
+    "counts": {
+      "lab": {
+        "no_box": 1,
+        "wrong": 3,
+        "correct": 3
+      }
+    },
+    "balanced_accuracy": 0.42857142857142855,
+    "wrong_or_both": 3,
+    "targets": [
+      {
+        "image": "lab-49755442",
+        "target": 1,
+        "truth": 5,
+        "state": "no_box"
+      },
+      {
+        "image": "lab-49755442",
+        "target": 2,
+        "truth": 5,
+        "state": "wrong"
+      },
+      {
+        "image": "lab-141546862",
+        "target": 1,
+        "truth": 5,
+        "state": "wrong"
+      },
+      {
+        "image": "lab-141546862",
+        "target": 2,
+        "truth": 5,
+        "state": "wrong"
+      },
+      {
+        "image": "lab-42334120",
+        "target": 1,
+        "truth": 5,
+        "state": "correct"
+      },
+      {
+        "image": "lab-91771186",
+        "target": 1,
+        "truth": 5,
+        "state": "correct"
+      },
+      {
+        "image": "lab-127925022",
+        "target": 1,
+        "truth": 5,
+        "state": "correct"
+      }
+    ]
+  },
+  "candidate": {
+    "checkpoint": "runs/laboratory_safety_public_balanced_20261112/weights/epoch1.pt",
+    "sha256": "c8c21069bbd5908abceba3d6730bff0023441b59c988c0aefc6b09dcfc28b5e5",
+    "counts": {
+      "lab": {
+        "wrong": 5,
+        "correct": 2
+      }
+    },
+    "balanced_accuracy": 0.2857142857142857,
+    "wrong_or_both": 5,
+    "targets": [
+      {
+        "image": "lab-49755442",
+        "target": 1,
+        "truth": 5,
+        "state": "wrong"
+      },
+      {
+        "image": "lab-49755442",
+        "target": 2,
+        "truth": 5,
+        "state": "wrong"
+      },
+      {
+        "image": "lab-141546862",
+        "target": 1,
+        "truth": 5,
+        "state": "wrong"
+      },
+      {
+        "image": "lab-141546862",
+        "target": 2,
+        "truth": 5,
+        "state": "wrong"
+      },
+      {
+        "image": "lab-42334120",
+        "target": 1,
+        "truth": 5,
+        "state": "correct"
+      },
+      {
+        "image": "lab-91771186",
+        "target": 1,
+        "truth": 5,
+        "state": "wrong"
+      },
+      {
+        "image": "lab-127925022",
+        "target": 1,
+        "truth": 5,
+        "state": "correct"
+      }
+    ]
+  }
+}
